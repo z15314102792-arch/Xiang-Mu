@@ -1,0 +1,103 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Xiang Mu｜真实口播剪辑工作台</title>
+<style>
+:root{--bg:#091420;--p:#112334;--edge:#2b4758;--txt:#edf6fc;--dim:#92aebe;--a:#79e5c8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top right,#123a4660,transparent 42%),var(--bg);color:var(--txt);font:14px/1.6 "Microsoft YaHei",sans-serif}
+a{color:var(--a);text-decoration:none}button,select,input,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.4;cursor:default}
+.container{max-width:1260px;margin:auto;padding:0 24px}.top{height:74px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--edge)}.brand{font-size:20px;font-weight:900}.brand span{color:var(--a)}
+.hero{padding:30px 0}.hero small{color:var(--a);letter-spacing:2px}.hero h1{font-size:36px;line-height:1.3;margin:8px 0}.hero p{color:#b8cbd7;max-width:900px}.note{background:#332b2066;color:#f3d6a3;border:1px solid #66533e;padding:11px 14px;border-radius:9px;font-size:12px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:15px 0 22px}.step{background:#182b3c;border:1px solid var(--edge);padding:12px 15px;border-radius:10px}.step small{color:var(--a);display:block;font-size:11px}
+.main{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}.card{border:1px solid var(--edge);background:var(--p);border-radius:13px;margin-bottom:15px;overflow:hidden}.card h2{font-size:15px;margin:0;padding:15px 18px;border-bottom:1px solid var(--edge)}.body{padding:18px}.field{display:block;margin-bottom:14px;font-size:12px;color:#c7dae5}.field input,.field select{display:block;width:100%;margin-top:6px;padding:9px;border:1px solid #38586a;border-radius:8px;background:#0b1a29;color:var(--txt)}input[type=file]{font-size:12px}
+.btn{padding:9px 13px;background:#254358;border:1px solid #466a79;color:#f0f8ff;border-radius:8px;font-size:12px;font-weight:800}.btn:hover{background:#30546b}.btn.primary{background:var(--a);color:#15322e;border-color:var(--a)}.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+.help{font-size:12px;color:var(--dim);margin:9px 0}.state{background:#0d3040;border:1px solid #2d6371;color:#b9dde4;padding:12px 14px;border-radius:9px;margin-top:15px;font-size:12px;white-space:pre-wrap}.state.fail{background:#392429;border-color:#86474c;color:#ffa9a4}.state.ok{background:#173d32;border-color:#328d79;color:#a6efdb}
+video{width:100%;max-height:320px;background:black;border-radius:8px}.cliplist{display:grid;gap:9px;max-height:690px;overflow:auto}.clip{background:#1a3043;border:1px solid #365569;padding:11px;border-radius:10px}.clip.off{opacity:.6}.cliptop{display:flex;justify-content:space-between;align-items:center;gap:8px}.cliptop label{font-size:12px;font-weight:800}.controls{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:8px;margin:8px 0}.controls label{color:var(--dim);font-size:11px}.controls input,.controls select{display:block;margin-top:4px;width:100%;border:1px solid #486479;background:#0b1b2b;color:var(--txt);padding:6px;border-radius:6px;font-size:12px}.clip textarea{width:100%;min-height:48px;background:#0b1b2b;color:var(--txt);border:1px solid #446074;padding:7px;border-radius:7px;font-size:12px;resize:vertical}.empty{text-align:center;border:1px dashed #3a586a;padding:40px;color:var(--dim);border-radius:9px}.download a{display:inline-block;border:1px solid #418d75;margin:9px 8px 2px 0;padding:8px 11px;border-radius:7px;font-size:12px}
+footer{margin:25px 0 35px;padding-top:20px;border-top:1px solid #ffffff1a;color:var(--dim);font-size:12px}
+@media(max-width:850px){.main{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}}@media(max-width:540px){.container{padding:0 12px}.hero h1{font-size:27px}.body{padding:12px}}
+</style></head><body><div class="container">
+<header class="top"><div class="brand">Xiang <span>Mu</span> · WORKBENCH</div><nav><a href="/demo" target="_blank">历史问题演示</a></nav></header>
+<section class="hero"><small>REAL VIDEO PROCESSING / LOCAL FIRST</small><h1>可以真正剪出视频的口播工作台</h1><p>导入 MP4 → 识别停顿、按需转写 → 试听并调整保留片段 → 导出真正剪过的 MP4、字幕及质检报告。</p><div class="note">没有可靠的自动说话人识别：IP/操盘手必须人工标记。花字、BGM、音效自动包装尚未实现。项目文件只保存在本机，不上传到 GitHub。</div></section>
+<div class="steps"><div class="step"><small>STEP 01</small>导入真实视频</div><div class="step"><small>STEP 02</small>分析静音 / 语音转写</div><div class="step"><small>STEP 03</small>试听、选片、改字幕</div><div class="step"><small>STEP 04</small>导出实际成片</div></div>
+<div class="main"><div>
+<section class="card"><h2>01 / 导入视频</h2><div class="body">
+<label class="field">选择视频（MP4 / MOV / MKV / WebM，最大 1.5GB）<input id="file" type="file" accept=".mp4,.mov,.mkv,.webm,video/*"></label>
+<label class="field">转写模式<select id="asr"><option value="off">仅静音切分，不转写</option><option value="tiny">本地 Whisper tiny（速度优先）</option><option value="small">本地 Whisper small（CPU较慢）</option></select></label>
+<p id="engine" class="help">正在检查本机引擎……</p><button class="btn primary" id="upload">导入并分析</button><div class="state" id="state">选择视频并开始。</div>
+<p class="help">实际文件位于本机「用户 Videos/XiangMu-workspace」。如果是私有素材，勿把工作区文件提交到 GitHub。</p>
+</div></section>
+<section class="card"><h2>02 / 原片逐段试听</h2><div class="body"><video id="player" controls preload="metadata"></video><p class="help" id="info">暂无视频。选择右侧片段的「试听」会跳转对应位置。</p></div></section>
+<section class="card"><h2>04 / 生成结果</h2><div class="body">
+<label class="help"><input type="checkbox" id="reviewed"> 我已经实际听看、确认保留段及说话人</label>
+<p class="help">未人工确认时禁止导出，不能把静音算法建议直接当作最终剪辑。</p><button class="btn primary" id="export" disabled>导出实际 MP4 + SRT</button><div class="download" id="downloads"></div>
+</div></section></div>
+<section class="card"><h2>03 / 人工修剪与说话人标注</h2><div class="body">
+<div class="btnrow"><button class="btn" id="all" disabled>全保留</button><button class="btn" id="ip" disabled>仅保留标记为 IP 的片段</button><button class="btn" id="save" disabled>保存修改</button></div>
+<p class="help" id="count">未分析视频</p><p class="help">勾选保留；开始/结束秒数可修正；说话人需试听后选择。字幕文本可编辑，导出时会自动转换为剪辑后的时间轴。</p>
+<div class="cliplist" id="clips"><div class="empty">导入视频后，此处显示实际分析出的片段。</div></div>
+</div></section></div>
+<footer>本页面运行在本地 Python 服务上。历史规则模拟检查在 /demo，不与真实剪辑混淆。</footer>
+</div><script>
+const el=id=>document.getElementById(id), auth={"X-Workflow-Local":"1"};
+let job=null, rows=[], timer=null;
+function err(s){el("state").className="state fail";el("state").textContent=s}
+function ok(s){el("state").className="state ok";el("state").textContent=s}
+function info(s){el("state").className="state";el("state").textContent=s}
+async function read(url){let r=await fetch(url),v=await r.json();if(!r.ok)throw Error(v.error||r.status);return v}
+async function post(url,v){let r=await fetch(url,{method:"POST",headers:{...auth,"Content-Type":"application/json"},body:JSON.stringify(v)}),d=await r.json();if(!r.ok)throw Error(d.error||r.status);return d}
+function protect(v){return String(v||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function can(x){["all","ip","save","export"].forEach(k=>el(k).disabled=!x)}
+function refreshCount(){el("count").textContent=rows.length+" 段候选；保留 "+rows.filter(x=>x.keep).length+" 段"}
+function editUI(){
+ refreshCount();
+ el("clips").innerHTML="";
+ rows.forEach((x,i)=>{
+  let box=document.createElement("div");box.className="clip"+(x.keep?"":" off");
+  box.innerHTML='<div class="cliptop"><label><input class="keep" type="checkbox"> 保留片段 '+(i+1)+'</label><button class="btn jump">▶ 定位试听</button></div><div class="controls"><label>开始 (秒)<input class="start" type="number" step="0.01" min="0"></label><label>结束 (秒)<input class="end" type="number" step="0.01" min="0"></label><label>说话人<select class="speaker"><option>待确认</option><option>IP</option><option>操盘手</option><option>其他</option></select></label></div><textarea class="caption" placeholder="字幕，可编辑"></textarea>';
+  box.querySelector(".keep").checked=x.keep;box.querySelector(".start").value=x.start;box.querySelector(".end").value=x.end;
+  box.querySelector(".speaker").value=x.speaker;box.querySelector(".caption").value=x.text;
+  box.querySelector(".keep").onchange=e=>{rows[i].keep=e.target.checked;box.classList.toggle("off",!e.target.checked);refreshCount()};
+  box.querySelector(".start").onchange=e=>rows[i].start=Number(e.target.value);
+  box.querySelector(".end").onchange=e=>rows[i].end=Number(e.target.value);
+  box.querySelector(".speaker").onchange=e=>rows[i].speaker=e.target.value;
+  box.querySelector(".caption").oninput=e=>rows[i].text=e.target.value;
+  box.querySelector(".jump").onclick=()=>{let v=el("player");v.currentTime=rows[i].start;v.play().catch(()=>{});v.scrollIntoView({block:"center",behavior:"smooth"})};
+  el("clips").appendChild(box);
+ });
+}
+function stop(){if(timer){clearInterval(timer);timer=null}}
+function watch(){if(timer)return;timer=setInterval(async()=>{if(!job)return;try{let x=await read("/api/real/job/"+job.id);if(x.status!==job.status||x.progress!==job.progress)showJob(x)}catch(e){err(e.message)}},1600)}
+function downloads(){
+ if(!job||!job.report){el("downloads").innerHTML="";return;}
+ let d=job.report, div=el("downloads");div.innerHTML="";
+ let p=document.createElement("p");p.className="help";p.textContent="实际导出 "+d.actualOutputSeconds+" 秒；保留 "+d.selectedSegments+" 段；字幕 "+d.subtitleLines+" 条；时长核验 "+d.timingCheck;div.appendChild(p);
+ for(let [k,t] of [["video","下载成片 MP4"],["srt","下载 SRT 字幕"],["report","下载质检报告"]]){let l=document.createElement("a");l.href="/api/real/file/"+job.id+"/"+k;l.download=l.textContent=t;div.appendChild(l)}
+ let b=document.createElement("button");b.className="btn";b.textContent="▶ 预览剪辑结果";b.onclick=()=>{el("player").src="/api/real/file/"+job.id+"/video";el("player").play().catch(()=>{})};div.appendChild(b);
+}
+function showJob(x){
+ const was=job?.status, oldId=job?.id;job=x;
+ if(oldId!==job.id||!el("player").src){el("player").src="/api/real/file/"+job.id+"/source"}
+ el("info").textContent=job.info?job.name+" · "+job.info.width+"×"+job.info.height+" · "+job.info.duration+"秒":job.name;
+ if(job.status==="review"||job.status==="ready"){
+   if((was!=="review"&&was!=="ready")||!rows.length){rows=structuredClone(job.segments||[]);editUI()}
+   can(true);
+   if(job.status==="ready"){ok("视频已实际导出。建议下载后通看检查。");downloads()}
+   else ok(job.progress);
+   stop();
+ }else if(job.status==="failed"){err(job.progress);can(false);stop()}
+ else{can(false);info(job.progress||"正在处理……");watch()}
+}
+el("upload").onclick=async()=>{
+ const file=el("file").files[0];if(!file){err("请先选择视频");return}
+ if(file.size>1500000000){err("视频大小超过限制");return}
+ el("upload").disabled=true;rows=[];stop();can(false);info("正在把视频发送到本地工作区（不经过云端）……");
+ try{let url="/api/real/upload?name="+encodeURIComponent(file.name)+"&asr="+encodeURIComponent(el("asr").value),r=await fetch(url,{method:"POST",headers:auth,body:file}),d=await r.json();if(!r.ok)throw Error(d.error||r.status);localStorage.setItem("xiangMuLast",d.id);el("downloads").innerHTML="";el("reviewed").checked=false;showJob(d)}
+ catch(e){err("导入失败："+e.message)}finally{el("upload").disabled=false}
+};
+el("all").onclick=()=>{rows.forEach(x=>x.keep=true);editUI()};
+el("ip").onclick=()=>{if(!rows.some(x=>x.speaker==="IP")){err("请先人工标注 IP 片段");return}rows.forEach(x=>x.keep=x.speaker==="IP");editUI()};
+el("save").onclick=async()=>{try{let j=await post("/api/real/plan",{id:job.id,segments:rows});job=j;rows=structuredClone(j.segments);editUI();ok("已保存修改")}catch(e){err("保存失败："+e.message)}};
+el("export").onclick=async()=>{if(!el("reviewed").checked){err("必须先人工试听/观看并勾选确认");return}
+ try{await post("/api/real/export",{id:job.id,segments:rows,reviewed:true});info("正在用 FFmpeg 实际导出视频……");el("downloads").innerHTML="";can(false);job.status="exporting";watch()}catch(e){err("导出失败："+e.message)}};
+(async()=>{try{let h=await read("/api/real/health");el("engine").textContent="FFmpeg "+(h.ok?"已就绪":"未找到")+"；本地 Whisper tiny："+(h.whisperTinyCached?"已缓存":"未缓存")+"；small："+(h.whisperSmallCached?"已缓存":"未缓存");if(h.whisperTinyCached)el("asr").value="tiny";el("upload").disabled=!h.ok;
+ let last=localStorage.getItem("xiangMuLast");if(last){try{showJob(await read("/api/real/job/"+last))}catch(e){localStorage.removeItem("xiangMuLast")}}
+ }catch(e){err("后端未启动："+e.message)}})();
+</script></body></html>

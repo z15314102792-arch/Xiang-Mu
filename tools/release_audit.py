@@ -6,8 +6,11 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 ALLOW = {
     ".gitignore", ".gitattributes", "README.md", "start-demo.bat",
-    "portfolio.py", "data/rules.json", "data/lock.json", "data/cases.json",
-    "web/index.html", "tests/test_portfolio.py", "tools/release_audit.py",
+    "portfolio.py", "media_workflow.py", "media_server.py",
+    "data/rules.json", "data/lock.json", "data/cases.json",
+    "web/index.html", "web/workbench.html",
+    "tests/test_portfolio.py", "tests/test_media_real.py",
+    "tests/test_media_http.py", "tools/release_audit.py",
     "docs/PROJECT_STORY.md", "docs/PUBLISH_CHECKLIST.md",
 }
 BLOCK_PATTERNS = [
