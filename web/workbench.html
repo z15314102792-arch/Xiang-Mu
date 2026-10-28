@@ -51,7 +51,7 @@ function editUI(){
  el("clips").innerHTML="";
  rows.forEach((x,i)=>{
   let box=document.createElement("div");box.className="clip"+(x.keep?"":" off");
-  box.innerHTML='<div class="cliptop"><label><input class="keep" type="checkbox"> 保留片段 '+(i+1)+'</label><button class="btn jump">▶ 定位试听</button></div><div class="controls"><label>开始 (秒)<input class="start" type="number" step="0.01" min="0"></label><label>结束 (秒)<input class="end" type="number" step="0.01" min="0"></label><label>说话人<select class="speaker"><option>待确认</option><option>IP</option><option>操盘手</option><option>其他</option></select></label></div><textarea class="caption" placeholder="字幕，可编辑"></textarea>';
+  box.innerHTML='<div class="cliptop"><label><input class="keep" type="checkbox"> 保留片段 '+(i+1)+'</label><div><button class="btn jump">▶ 定位试听</button> <button class="btn split">✂ 拆分此段</button></div></div><div class="controls"><label>开始 (秒)<input class="start" type="number" step="0.01" min="0"></label><label>结束 (秒)<input class="end" type="number" step="0.01" min="0"></label><label>说话人<select class="speaker"><option>待确认</option><option>IP</option><option>操盘手</option><option>其他</option></select></label></div><textarea class="caption" placeholder="字幕，可编辑"></textarea>';
   box.querySelector(".keep").checked=x.keep;box.querySelector(".start").value=x.start;box.querySelector(".end").value=x.end;
   box.querySelector(".speaker").value=x.speaker;box.querySelector(".caption").value=x.text;
   box.querySelector(".keep").onchange=e=>{rows[i].keep=e.target.checked;box.classList.toggle("off",!e.target.checked);refreshCount()};
@@ -60,6 +60,12 @@ function editUI(){
   box.querySelector(".speaker").onchange=e=>rows[i].speaker=e.target.value;
   box.querySelector(".caption").oninput=e=>rows[i].text=e.target.value;
   box.querySelector(".jump").onclick=()=>{let v=el("player");v.currentTime=rows[i].start;v.play().catch(()=>{});v.scrollIntoView({block:"center",behavior:"smooth"})};
+  box.querySelector(".split").onclick=()=>{let old=rows[i], at=el("player").currentTime;
+    if(!(at>old.start+0.07&&at<old.end-0.07))at=(old.start+old.end)/2;
+    at=Math.round(at*1000)/1000;
+    if(!(at>old.start+0.06&&at<old.end-0.06)){err("此片段太短，无法拆分");return}
+    rows.splice(i,1,{...old,end:at},{...old,start:at,text:""});
+    editUI();info("已拆成两段；请重新听看并核对两段字幕和说话人，保存后才能生效。")};
   el("clips").appendChild(box);
  });
 }
