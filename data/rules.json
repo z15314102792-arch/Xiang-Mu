@@ -1,0 +1,104 @@
+[
+  {
+    "id": "ROUGH-001",
+    "stage": "粗剪",
+    "status": "locked",
+    "version": 1,
+    "title": "保留片段必须声画双重核查",
+    "description": "不能仅依据 ASR 或静音检测把一个片段判断为可保留。",
+    "origin": "原项目 ROUGH-001",
+    "fields": [
+      "take.audioReviewed",
+      "take.videoReviewed"
+    ]
+  },
+  {
+    "id": "SUB-002",
+    "stage": "字幕",
+    "status": "locked",
+    "version": 2,
+    "title": "字幕连续、局部风险处理",
+    "description": "保留真实原话，不允许长时间用空白或泛词占位；演示版将超过8秒的占位列为阻断条件。",
+    "origin": "原项目 SUB-002；8秒为演示版判定条件",
+    "fields": [
+      "subtitles.placeholder",
+      "subtitles.duration"
+    ]
+  },
+  {
+    "id": "FLOWER-001",
+    "stage": "花字",
+    "status": "locked",
+    "version": 1,
+    "title": "只强调核心观点与总结",
+    "description": "普通叙述不得为了凑数量被升级为花字。",
+    "origin": "原项目 FLOWER-001",
+    "fields": [
+      "flowers.intent"
+    ]
+  },
+  {
+    "id": "FLOWER-003",
+    "stage": "花字",
+    "status": "locked",
+    "version": 1,
+    "title": "花字严格绑定词级起止",
+    "description": "禁止所有花字使用统一36帧/1.2秒；演示版同步容差为0.12秒。",
+    "origin": "原项目 FLOWER-003；0.12秒为演示容差",
+    "fields": [
+      "flowers.durationMode",
+      "flowers.wordStart",
+      "flowers.wordEnd"
+    ]
+  },
+  {
+    "id": "FLOWER-005",
+    "stage": "花字",
+    "status": "locked",
+    "version": 1,
+    "title": "花字画布与动画安全",
+    "description": "不能裁切文字，也不能无限循环动画。",
+    "origin": "原项目 FLOWER-005",
+    "fields": [
+      "flowers.fitsSafeArea",
+      "flowers.animationLoop"
+    ]
+  },
+  {
+    "id": "SFX-001",
+    "stage": "音效",
+    "status": "locked",
+    "version": 1,
+    "title": "音效独立按语义触发",
+    "description": "音效必须独立于花字时点/索引，不能按固定间隔机械生成。",
+    "origin": "原项目 SFX-001",
+    "fields": [
+      "sfx.trigger"
+    ]
+  },
+  {
+    "id": "BGM-001",
+    "stage": "音效",
+    "status": "locked",
+    "version": 1,
+    "title": "背景音乐不能抢人声",
+    "description": "选用干净的非人声背景音乐，不拿混合音轨冒充纯BGM。",
+    "origin": "原项目 BGM-001",
+    "fields": [
+      "bgm.sourceType",
+      "bgm.voiceClear"
+    ]
+  },
+  {
+    "id": "WORKFLOW-001",
+    "stage": "质检",
+    "status": "locked",
+    "version": 1,
+    "title": "七类报告齐全才能进入人工验收",
+    "description": "结构/take/语义/花字/音效/混音/技术七类自动检查通过后仍需人工审片。",
+    "origin": "原项目 WORKFLOW-001",
+    "fields": [
+      "reports"
+    ]
+  }
+]

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>WorkFlow Lab · AI 口播质量治理作品集</title>
+<style>
+:root{--bg:#08111d;--surface:#101e2d;--surface2:#152538;--line:#2a3e53;--muted:#8fa6b8;--text:#f0f5fb;--mint:#64e2c0;--amber:#f9ba76;--red:#ff897e;--blue:#8fbefe}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#122c39 0%,transparent 43%),var(--bg);color:var(--text);font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif}
+button,textarea{font:inherit}button{cursor:pointer}a{color:var(--mint);text-decoration:none}
+button:focus-visible,a:focus-visible,textarea:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+.wrap{width:min(1320px,calc(100% - 56px));margin:auto}
+.top{height:78px;border-bottom:1px solid #ffffff14;display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:18px;font-weight:850;letter-spacing:.6px;display:flex;align-items:center;gap:11px}
+.brandmark{display:grid;place-items:center;width:36px;height:36px;background:var(--mint);color:#122030;border-radius:11px;font-size:18px;font-weight:900}
+.topright{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px}.tag{border:1px solid #54705d88;border-radius:20px;padding:5px 12px;color:var(--mint);font-weight:700;letter-spacing:.6px}
+.hero{padding:49px 0 30px}.eyebrow{color:var(--mint);font-size:12px;font-weight:800;letter-spacing:2.1px}.hero h1{font-size:clamp(31px,4vw,51px);line-height:1.2;letter-spacing:-.8px;margin:13px 0 12px}.hero h1 span{color:var(--mint)}
+.hero p{max-width:800px;color:#b4c7d7;font-size:15px;line-height:1.9;margin:0}.notice{margin-top:19px;color:#d6ba8e;border:1px solid #765d3855;background:#30271a55;border-radius:10px;padding:11px 14px;width:fit-content;max-width:100%}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:25px 0 30px}.metric{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:19px 21px;min-height:103px}.metric b{display:block;font-size:31px;line-height:1.25;letter-spacing:-1px}.metric span{font-size:12px;color:var(--muted)}.metric .small{font-size:16px;color:var(--mint);letter-spacing:0}
+.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:32px 0 13px}.sectionhead h2{font-size:18px;margin:0;letter-spacing:.1px}.sectionhead p{margin:0;color:var(--muted);font-size:12px}
+.pipeline{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.step{background:#132437;border:1px solid var(--line);border-radius:12px;padding:12px;min-height:92px}.step small{display:block;color:var(--mint);letter-spacing:1px;font-weight:700;font-size:10px}.step strong{display:block;margin-top:9px;font-size:13px}.step span{font-size:11px;color:var(--muted)}
+.workspace{display:grid;grid-template-columns:310px 1fr;gap:16px;margin-top:24px;align-items:start}.panel{border:1px solid var(--line);background:var(--surface);border-radius:16px;overflow:hidden}.panelhead{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px}.panelhead strong{font-size:14px}.panelhead small{color:var(--muted)}.panelbody{padding:21px}
+.case-list{max-height:660px;overflow:auto;padding:10px}.case{width:100%;background:transparent;border:1px solid transparent;color:var(--text);text-align:left;padding:12px 13px;border-radius:11px;display:flex;gap:11px;margin:2px 0}.case:hover{background:#1b3144}.case.active{border-color:#326c6d;background:#17383d}.case .dot{margin-top:7px;flex:none;width:7px;height:7px;border-radius:50%;background:var(--red)}.case .dot.ok{background:var(--mint)}.case strong{font-size:12px;font-weight:700;line-height:1.5;display:block}.case small{font-size:11px;color:var(--muted);display:block;margin-top:4px}
+.outcome{border:1px solid #744d49;background:#2b2026;border-radius:13px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}.outcome.ok{border-color:#29645d;background:#153430}.outcome b{font-size:21px;display:block}.outcome span{display:block;color:#b3c7cc;font-size:12px;margin-top:3px}.score{font-size:12px;color:#e6a49b;border:1px solid #945b57;padding:5px 11px;border-radius:30px;white-space:nowrap}.outcome.ok .score{color:var(--mint);border-color:#328076}
+.title-row{margin:22px 0 13px}.title-row h3{font-size:17px;margin:0 0 5px}.title-row p{color:var(--muted);font-size:12px;margin:0}
+.check-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin:20px 0}.check{padding:10px 4px;text-align:center;background:#1a3040;border:1px solid #355062;border-radius:9px;font-size:11px;color:#bce9de}.check.bad{background:#3a292d;border-color:#805453;color:#ffb1a8}
+.finding{padding:15px 16px;background:#17293a;border:1px solid #2c4354;border-radius:12px;margin-bottom:10px}.finding-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.finding-title strong{font-size:13px}.pill{font:700 11px/1.6 ui-monospace,Menlo,Consolas,monospace;background:#362b31;color:#ffada4;padding:3px 8px;border-radius:5px}.finding p{margin:7px 0 2px;color:#c9d9e4;font-size:13px}.finding em{font-style:normal;color:#7fdec6;font-size:12px}.empty{padding:22px;text-align:center;background:#17332e;border:1px solid #286554;border-radius:10px;color:#b7e3d6}
+.toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:17px 0 0}.btn{border-radius:9px;padding:9px 15px;font-size:12px;font-weight:800;border:1px solid #466274;background:#1b3041;color:#d7e7f2}.btn:hover{background:#254155}.btn.primary{background:var(--mint);color:#10232b;border-color:var(--mint)}.btn.primary:hover{background:#9df5d8}.btn.flat{background:transparent}.reporttext{color:var(--muted);font-size:12px}
+.editor{width:100%;height:240px;resize:vertical;border:1px solid #365266;border-radius:10px;background:#0b1825;color:#c9eadb;padding:15px;font:12px/1.65 ui-monospace,Consolas,monospace;margin-top:13px}
+.details{margin-top:15px}.details summary{cursor:pointer;color:var(--muted);font-size:12px}.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.rule{padding:17px 18px;border:1px solid var(--line);border-radius:13px;background:var(--surface)}.rule .rhead{display:flex;justify-content:space-between;align-items:center;gap:9px}.rule .rhead code{color:var(--mint);background:#1b3540;padding:3px 7px;border-radius:5px;font-size:11px}.rule .rhead small{color:#bce2af;font-size:11px}.rule b{font-size:14px;display:block;margin:9px 0 3px}.rule p{font-size:12px;margin:0;color:var(--muted);line-height:1.8}.audit{display:flex;gap:10px;align-items:center;color:#a9e4d2;font-size:12px}.about{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px}.about article{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:19px}.about article small{color:var(--mint);font-weight:800}.about article h3{font-size:14px;margin:10px 0 5px}.about article p{font-size:12px;color:var(--muted);margin:0}.footer{padding:38px 0 45px;border-top:1px solid #ffffff12;margin-top:45px;color:var(--muted);display:flex;justify-content:space-between;font-size:12px;gap:12px;flex-wrap:wrap}
+@media(max-width:1000px){.pipeline{grid-template-columns:repeat(4,1fr)}.check-grid{grid-template-columns:repeat(4,1fr)}.workspace{grid-template-columns:265px 1fr}.metrics{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:690px){.wrap{width:calc(100% - 28px)}.hero{padding-top:33px}.pipeline{grid-template-columns:repeat(2,1fr)}.workspace{grid-template-columns:1fr}.case-list{max-height:320px}.rules,.about{grid-template-columns:1fr}.topright span:not(.tag){display:none}.metric{padding:14px}.check-grid{grid-template-columns:repeat(4,1fr)}.panelbody{padding:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand"><span class="brandmark">W</span> Workflow <span style="color:var(--mint)">Lab</span></div><div class="topright"><span>口播视频 · AI 工作流治理</span><span class="tag">PORTFOLIO v1.0</span></div></header>
+<section class="hero">
+<div class="eyebrow">PROJECT CASE STUDY / RULES × EVALUATION × REGRESSION</div>
+<h1>让 AI 工作流从“<span>感觉能用</span>”<br>走向可检查、可复测</h1>
+<p>将口播剪辑中不断出现的质量问题，沉淀为独立规则、阻断条件与固定回归案例。这个交互式作品演示如何发现错误、定位规则、给出修改方向，以及验证历史问题是否重新出现。</p>
+<div class="notice">演示边界：仅运行结构化计划质检；不读取真实视频、不验证声音质量、不声称自动剪辑已商业交付。</div>
+</section>
+<div class="metrics">
+<div class="metric"><b id="mCases">—</b><span>可重放演示案例</span></div>
+<div class="metric"><b id="mRules">—</b><span>来源于原项目的规则</span></div>
+<div class="metric"><b id="mRegression">—</b><span>案例期望结果符合率</span></div>
+<div class="metric"><b class="small" id="mAudit">核验中</b><span>规则锁定完整性</span></div>
+</div>
+<div class="sectionhead"><h2>01 / 七道质量门槛</h2><p>节点独立检查，阻断原因可以追溯</p></div>
+<div class="pipeline" id="pipeline"></div>
+<div class="sectionhead"><h2>02 / 历史问题回放</h2><p>选择案例 → 运行判定 → 查看触发规则与修复建议</p></div>
+<div class="workspace">
+<aside class="panel"><div class="panelhead"><strong>案例数据库</strong><small id="caseNum">加载中</small></div><div class="case-list" id="caseList"></div></aside>
+<section class="panel"><div class="panelhead"><strong>质量检查工作台</strong><small>本地运行 · 无上传</small></div><div class="panelbody">
+<div class="outcome" id="outcome"><div><b>正在载入案例</b><span>使用 Python 标准库运行质检</span></div></div>
+<div class="title-row"><h3 id="caseTitle">—</h3><p id="caseStory">—</p></div>
+<div class="check-grid" id="gateGrid"></div>
+<div id="findings"></div>
+<div class="toolrow"><button class="btn primary" id="rerun">复测当前案例</button><button class="btn" id="runall">运行全量回归</button><span class="reporttext" id="actionMsg"></span></div>
+<details class="details"><summary>高级演示：修改案例 JSON 并重新质检（只在本地内存运行）</summary>
+<textarea class="editor" id="rawEditor" spellcheck="false" aria-label="自定义案例 JSON"></textarea>
+<button class="btn" id="runCustom">运行修改后的输入</button></details>
+</div></section>
+</div>
+<div class="sectionhead"><h2>03 / 规则治理清单</h2><div class="audit" id="ruleAudit">● 正在核对锁定版本</div></div>
+<div class="rules" id="rulesGrid"></div>
+<div class="sectionhead"><h2>04 / 从失败反馈到可复测规则</h2><p>将产品运营视角落到真实操作流程</p></div>
+<div class="about">
+<article><small>STEP 01 · DISCOVER</small><h3>收集失败案例</h3><p>把“花字很乱”“音效不对”等主观反馈拆成具体问题；记录表现、严重程度和可复现条件。</p></article>
+<article><small>STEP 02 · GOVERN</small><h3>规则与修改隔离</h3><p>每个质量要求有独立规则 ID；变更前比较版本，锁定清单检测未经批准的修改。</p></article>
+<article><small>STEP 03 · VERIFY</small><h3>历史回归与人工验收</h3><p>坏案例需要被阻断，好案例需要正常通过。机械检查通过不等于成片审片通过。</p></article>
+</div>
+<footer class="footer"><span>Workflow Lab / AI 应用运营作品展示 · 基于真实项目问题抽象，示例素材为模拟数据</span><span>不包含客户视频、音频、密钥或第三方素材</span></footer>
+</div>
+<script>
+const gateNames=[["structure","结构"],["take","声画"],["semantic","语义"],["flower","花字"],["sfx","音效"],["audio","混音"],["technical","技术"]];
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let cases=[],selected=null;
+$("pipeline").innerHTML=gateNames.map(([id,label],i)=>`<div class="step"><small>GATE 0${i+1}</small><strong>${label}</strong><span>${["时长与结构","口误与复核","断句与内容","重点与时机","独立语义触发","BGM 避让","导出与参数"][i]}</span></div>`).join("");
+function summary(){
+ const valid=cases.filter(c=>c.result.status===c.expected).length;
+ $("mCases").textContent=cases.length;
+ $("mRegression").textContent=cases.length?`${valid} / ${cases.length}`:"—";
+ $("caseNum").textContent=`${cases.length} CASES`;
+}
+function renderList(){
+ $("caseList").innerHTML=cases.map(c=>`<button class="case ${c.id===selected?.id?"active":""}" data-id="${esc(c.id)}"><span class="dot ${c.result.status!=="blocked"?"ok":""}"></span><span><strong>${esc(c.title)}</strong><small>${esc(c.id)} · ${c.result.status==="blocked"?"应阻断":"应进入人工复核"}</small></span></button>`).join("");
+ $("caseList").querySelectorAll("button").forEach(b=>b.onclick=()=>selectCase(b.dataset.id));
+}
+function renderResult(r,input){
+ const ok=r.status==="review_required";
+ $("outcome").className="outcome"+(ok?" ok":"");
+ $("outcome").innerHTML=`<div><b>${ok?"机械质检通过":"已阻断不合格计划"}</b><span>${ok?"下一步：真实成片人工审片（尚未完成）":"修复触发规则后，必须重新回归测试"}</span></div><div class="score">${ok?"WAITING FOR REVIEW":r.failCount+" FINDINGS"}</div>`;
+ $("caseTitle").textContent=r.title;
+ $("gateGrid").innerHTML=gateNames.map(([id,name])=>`<div class="check ${input?.reports?.[id]==="passed"?"":"bad"}">${input?.reports?.[id]==="passed"?"✓":"!"} ${name}</div>`).join("");
+ $("findings").innerHTML=r.findings.length?r.findings.map(x=>`<div class="finding"><div class="finding-title"><strong>${esc(x.stage)} · ${esc(x.message)}</strong><span class="pill">${esc(x.ruleId)}</span></div><p>处理建议</p><em>${esc(x.suggestion)}</em></div>`).join(""):`<div class="empty">✓ 当前结构化计划没有触发已实现的机械阻断规则。<br>注意：真实声画质量、主观风格和业务适配仍需人工验收。</div>`;
+}
+function selectCase(id){
+ selected=cases.find(c=>c.id===id)||cases[0];if(!selected)return;
+ $("caseStory").textContent=selected.story;
+ $("rawEditor").value=JSON.stringify({id:selected.id,title:selected.title,input:selected.input},null,2);
+ $("actionMsg").textContent="";
+ renderResult(selected.result,selected.input);renderList();
+}
+async function refresh(){
+ try{
+  const [ca,ru]=await Promise.all([fetch("/api/cases"),fetch("/api/rules")]);
+  if(!ca.ok||!ru.ok)throw Error("接口请求失败");
+  cases=await ca.json();const doc=await ru.json();
+  summary();
+  $("mRules").textContent=doc.rules.length;
+  const passed=doc.audit.status==="passed";
+  $("mAudit").textContent=passed?"SHA-256 已校验":"规则漂移";
+  $("mAudit").style.color=passed?"var(--mint)":"var(--red)";
+  $("ruleAudit").textContent=passed?"● 锁定清单匹配 · 所有规则 ID 唯一":"● 规则完整性异常";
+  $("ruleAudit").style.color=passed?"var(--mint)":"var(--red)";
+  $("rulesGrid").innerHTML=doc.rules.map(x=>`<article class="rule"><div class="rhead"><code>${esc(x.id)}</code><small>LOCKED · V${esc(x.version)}</small></div><b>${esc(x.title)}</b><p>${esc(x.description)}</p></article>`).join("");
+  selectCase(selected?.id||"BC-FLOWER-006");
+ }catch(e){$("caseList").textContent="加载失败："+e.message;$("actionMsg").textContent="请检查 Python 本地服务是否运行";}
+}
+$("rerun").onclick=async()=>{if(!selected)return;try{
+ const res=await fetch("/api/evaluate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:selected.id,title:selected.title,input:selected.input})});
+ if(!res.ok)throw Error("请求失败");const r=await res.json();renderResult(r,selected.input);$("actionMsg").textContent="复测完成 · "+new Date().toLocaleTimeString();
+}catch(e){$("actionMsg").textContent=e.message;}};
+$("runCustom").onclick=async()=>{try{
+ const obj=JSON.parse($("rawEditor").value);
+ const res=await fetch("/api/evaluate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(obj)});
+ const data=await res.json();if(!res.ok)throw Error(data.error||"请求失败");
+ renderResult(data,obj.input);$("caseStory").textContent="自定义演示：仅更改本次运行内存，不改变历史案例。";$("actionMsg").textContent="自定义质检完成";
+}catch(e){$("actionMsg").textContent="JSON 或接口错误："+e.message;}};
+$("runall").onclick=async()=>{await refresh();const pass=cases.filter(c=>c.result.status===c.expected).length;$("actionMsg").textContent=`全量回归：${pass}/${cases.length} 个预期一致`;};
+refresh();
+</script>
+</body>
+</html>

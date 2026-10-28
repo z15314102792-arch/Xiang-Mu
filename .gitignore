@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+# Local outputs and secrets
+.env
+.env.*
+!.env.example
+reports/
+*.log
+*.key
+*.pem
+# Raw media/drafts are NEVER part of the portfolio
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.mp3
+*.wav
+*.m4a
+*.ass
+*.srt
+*.zip
+*.bin
+# Operating system
+.DS_Store
+Thumbs.db

@@ -1,0 +1,478 @@
+[
+  {
+    "id": "GOOD-001",
+    "title": "规范素材：全部机械检查通过",
+    "story": "演示：各节点均有证据，但人工审片尚未完成。",
+    "expected": "review_required",
+    "input": {
+      "take": {
+        "audioReviewed": true,
+        "videoReviewed": true
+      },
+      "subtitles": [
+        {
+          "text": "今天分享三个方法",
+          "placeholder": false,
+          "duration": 2.4
+        }
+      ],
+      "flowers": [
+        {
+          "text": "三个方法",
+          "intent": "core_point",
+          "start": 0.8,
+          "end": 1.65,
+          "wordStart": 0.8,
+          "wordEnd": 1.65,
+          "durationMode": "word_alignment",
+          "fitsSafeArea": true,
+          "animationLoop": false
+        }
+      ],
+      "sfx": [
+        {
+          "trigger": "semantic",
+          "at": 0.8,
+          "reason": "强调真实重点"
+        }
+      ],
+      "bgm": {
+        "sourceType": "instrumental",
+        "voiceClear": true
+      },
+      "reports": {
+        "structure": "passed",
+        "take": "passed",
+        "semantic": "passed",
+        "flower": "passed",
+        "sfx": "passed",
+        "audio": "passed",
+        "technical": "passed"
+      },
+      "humanReview": "pending"
+    }
+  },
+  {
+    "id": "BC-FLOWER-006",
+    "title": "花字凑数：普通叙述被当作重点",
+    "story": "模拟历史问题 BC-FLOWER-006。",
+    "expected": "blocked",
+    "input": {
+      "take": {
+        "audioReviewed": true,
+        "videoReviewed": true
+      },
+      "subtitles": [
+        {
+          "text": "今天分享三个方法",
+          "placeholder": false,
+          "duration": 2.4
+        }
+      ],
+      "flowers": [
+        {
+          "text": "然后我又想了想",
+          "intent": "ordinary_narration",
+          "start": 0.8,
+          "end": 1.65,
+          "wordStart": 0.8,
+          "wordEnd": 1.65,
+          "durationMode": "word_alignment",
+          "fitsSafeArea": true,
+          "animationLoop": false
+        }
+      ],
+      "sfx": [
+        {
+          "trigger": "semantic",
+          "at": 0.8,
+          "reason": "强调真实重点"
+        }
+      ],
+      "bgm": {
+        "sourceType": "instrumental",
+        "voiceClear": true
+      },
+      "reports": {
+        "structure": "passed",
+        "take": "passed",
+        "semantic": "passed",
+        "flower": "passed",
+        "sfx": "passed",
+        "audio": "passed",
+        "technical": "passed"
+      },
+      "humanReview": "pending"
+    }
+  },
+  {
+    "id": "BC-FLOWER-007",
+    "title": "花字时长固定导致错位",
+    "story": "模拟历史问题 BC-FLOWER-007。",
+    "expected": "blocked",
+    "input": {
+      "take": {
+        "audioReviewed": true,
+        "videoReviewed": true
+      },
+      "subtitles": [
+        {
+          "text": "今天分享三个方法",
+          "placeholder": false,
+          "duration": 2.4
+        }
+      ],
+      "flowers": [
+        {
+          "text": "三个方法",
+          "intent": "core_point",
+          "start": 0.8,
+          "end": 2,
+          "wordStart": 0.8,
+          "wordEnd": 1.65,
+          "durationMode": "fixed_1_2s",
+          "fitsSafeArea": true,
+          "animationLoop": false
+        }
+      ],
+      "sfx": [
+        {
+          "trigger": "semantic",
+          "at": 0.8,
+          "reason": "强调真实重点"
+        }
+      ],
+      "bgm": {
+        "sourceType": "instrumental",
+        "voiceClear": true
+      },
+      "reports": {
+        "structure": "passed",
+        "take": "passed",
+        "semantic": "passed",
+        "flower": "passed",
+        "sfx": "passed",
+        "audio": "passed",
+        "technical": "passed"
+      },
+      "humanReview": "pending"
+    }
+  },
+  {
+    "id": "BC-FLOWER-005",
+    "title": "花字被裁切、动画循环",
+    "story": "模拟历史问题 BC-FLOWER-005。",
+    "expected": "blocked",
+    "input": {
+      "take": {
+        "audioReviewed": true,
+        "videoReviewed": true
+      },
+      "subtitles": [
+        {
+          "text": "今天分享三个方法",
+          "placeholder": false,
+          "duration": 2.4
+        }
+      ],
+      "flowers": [
+        {
+          "text": "三个方法",
+          "intent": "core_point",
+          "start": 0.8,
+          "end": 1.65,
+          "wordStart": 0.8,
+          "wordEnd": 1.65,
+          "durationMode": "word_alignment",
+          "fitsSafeArea": false,
+          "animationLoop": true
+        }
+      ],
+      "sfx": [
+        {
+          "trigger": "semantic",
+          "at": 0.8,
+          "reason": "强调真实重点"
+        }
+      ],
+      "bgm": {
+        "sourceType": "instrumental",
+        "voiceClear": true
+      },
+      "reports": {
+        "structure": "passed",
+        "take": "passed",
+        "semantic": "passed",
+        "flower": "passed",
+        "sfx": "passed",
+        "audio": "passed",
+        "technical": "passed"
+      },
+      "humanReview": "pending"
+    }
+  },
+  {
+    "id": "BC-SFX-008",
+    "title": "音效跟随花字索引生成",
+    "story": "模拟历史问题 BC-SFX-008。",
+    "expected": "blocked",
+    "input": {
+      "take": {
+        "audioReviewed": true,
+        "videoReviewed": true
+      },
+      "subtitles": [
+        {
+          "text": "今天分享三个方法",
+          "placeholder": false,
+          "duration": 2.4
+        }
+      ],
+      "flowers": [
+        {
+          "text": "三个方法",
+          "intent": "core_point",
+          "start": 0.8,
+          "end": 1.65,
+          "wordStart": 0.8,
+          "wordEnd": 1.65,
+          "durationMode": "word_alignment",
+          "fitsSafeArea": true,
+          "animationLoop": false
+        }
+      ],
+      "sfx": [
+        {
+          "trigger": "flower_index",
+          "at": 0.8,
+          "reason": "按第几个花字触发"
+        }
+      ],
+      "bgm": {
+        "sourceType": "instrumental",
+        "voiceClear": true
+      },
+      "reports": {
+        "structure": "passed",
+        "take": "passed",
+        "semantic": "passed",
+        "flower": "passed",
+        "sfx": "passed",
+        "audio": "passed",
+        "technical": "passed"
+      },
+      "humanReview": "pending"
+    }
+  },
+  {
+    "id": "BC-TAKE-009",
+    "title": "只有语音识别，没有视频复核",
+    "story": "模拟历史问题 BC-TAKE-009。",
+    "expected": "blocked",
+    "input": {
+      "take": {
+        "audioReviewed": true,
+        "videoReviewed": false
+      },
+      "subtitles": [
+        {
+          "text": "今天分享三个方法",
+          "placeholder": false,
+          "duration": 2.4
+        }
+      ],
+      "flowers": [
+        {
+          "text": "三个方法",
+          "intent": "core_point",
+          "start": 0.8,
+          "end": 1.65,
+          "wordStart": 0.8,
+          "wordEnd": 1.65,
+          "durationMode": "word_alignment",
+          "fitsSafeArea": true,
+          "animationLoop": false
+        }
+      ],
+      "sfx": [
+        {
+          "trigger": "semantic",
+          "at": 0.8,
+          "reason": "强调真实重点"
+        }
+      ],
+      "bgm": {
+        "sourceType": "instrumental",
+        "voiceClear": true
+      },
+      "reports": {
+        "structure": "passed",
+        "take": "passed",
+        "semantic": "passed",
+        "flower": "passed",
+        "sfx": "passed",
+        "audio": "passed",
+        "technical": "passed"
+      },
+      "humanReview": "pending"
+    }
+  },
+  {
+    "id": "DEMO-SUB-002",
+    "title": "字幕长时间占位",
+    "story": "模拟字幕错误，超过演示版占位时长门槛。",
+    "expected": "blocked",
+    "input": {
+      "take": {
+        "audioReviewed": true,
+        "videoReviewed": true
+      },
+      "subtitles": [
+        {
+          "text": "今天分享三个方法",
+          "placeholder": true,
+          "duration": 10
+        }
+      ],
+      "flowers": [
+        {
+          "text": "三个方法",
+          "intent": "core_point",
+          "start": 0.8,
+          "end": 1.65,
+          "wordStart": 0.8,
+          "wordEnd": 1.65,
+          "durationMode": "word_alignment",
+          "fitsSafeArea": true,
+          "animationLoop": false
+        }
+      ],
+      "sfx": [
+        {
+          "trigger": "semantic",
+          "at": 0.8,
+          "reason": "强调真实重点"
+        }
+      ],
+      "bgm": {
+        "sourceType": "instrumental",
+        "voiceClear": true
+      },
+      "reports": {
+        "structure": "passed",
+        "take": "passed",
+        "semantic": "passed",
+        "flower": "passed",
+        "sfx": "passed",
+        "audio": "passed",
+        "technical": "passed"
+      },
+      "humanReview": "pending"
+    }
+  },
+  {
+    "id": "DEMO-BGM-001",
+    "title": "混合人声被当作背景音乐",
+    "story": "模拟背景音乐来源类型错误。",
+    "expected": "blocked",
+    "input": {
+      "take": {
+        "audioReviewed": true,
+        "videoReviewed": true
+      },
+      "subtitles": [
+        {
+          "text": "今天分享三个方法",
+          "placeholder": false,
+          "duration": 2.4
+        }
+      ],
+      "flowers": [
+        {
+          "text": "三个方法",
+          "intent": "core_point",
+          "start": 0.8,
+          "end": 1.65,
+          "wordStart": 0.8,
+          "wordEnd": 1.65,
+          "durationMode": "word_alignment",
+          "fitsSafeArea": true,
+          "animationLoop": false
+        }
+      ],
+      "sfx": [
+        {
+          "trigger": "semantic",
+          "at": 0.8,
+          "reason": "强调真实重点"
+        }
+      ],
+      "bgm": {
+        "sourceType": "mixed_with_voice",
+        "voiceClear": false
+      },
+      "reports": {
+        "structure": "passed",
+        "take": "passed",
+        "semantic": "passed",
+        "flower": "passed",
+        "sfx": "passed",
+        "audio": "passed",
+        "technical": "passed"
+      },
+      "humanReview": "pending"
+    }
+  },
+  {
+    "id": "DEMO-WORKFLOW-001",
+    "title": "技术检查报告缺失",
+    "story": "模拟交付验收阶段报告不完整。",
+    "expected": "blocked",
+    "input": {
+      "take": {
+        "audioReviewed": true,
+        "videoReviewed": true
+      },
+      "subtitles": [
+        {
+          "text": "今天分享三个方法",
+          "placeholder": false,
+          "duration": 2.4
+        }
+      ],
+      "flowers": [
+        {
+          "text": "三个方法",
+          "intent": "core_point",
+          "start": 0.8,
+          "end": 1.65,
+          "wordStart": 0.8,
+          "wordEnd": 1.65,
+          "durationMode": "word_alignment",
+          "fitsSafeArea": true,
+          "animationLoop": false
+        }
+      ],
+      "sfx": [
+        {
+          "trigger": "semantic",
+          "at": 0.8,
+          "reason": "强调真实重点"
+        }
+      ],
+      "bgm": {
+        "sourceType": "instrumental",
+        "voiceClear": true
+      },
+      "reports": {
+        "structure": "passed",
+        "take": "passed",
+        "semantic": "passed",
+        "flower": "passed",
+        "sfx": "passed",
+        "audio": "passed"
+      },
+      "humanReview": "pending"
+    }
+  }
+]
