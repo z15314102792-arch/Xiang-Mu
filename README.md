@@ -4,6 +4,14 @@
 
 项目提供本地 Python + FFmpeg + ASS 字幕工作台。数据留在个人电脑：真实视频、音频、草稿和成片不进入 GitHub。
 
+## 在线查看项目（GitHub Pages）
+
+**[Xiang Mu 项目展示页](https://z15314102792-arch.github.io/Xiang-Mu/)** · [实际操作界面截图](https://github.com/z15314102792-arch/Xiang-Mu/blob/gh-pages/assets/workbench.png) · [合成素材包装演示视频](https://github.com/z15314102792-arch/Xiang-Mu/blob/gh-pages/assets/render-demo.mp4)
+
+![Xiang Mu 视频工作台运行界面](https://raw.githubusercontent.com/z15314102792-arch/Xiang-Mu/gh-pages/assets/workbench.png)
+
+> GitHub Pages 是长期展示站点：电脑关机也能看项目功能和样例视频；真实视频剪辑/导出仍由本地 Python + FFmpeg 完成，不把静态展示页冒充云端剪辑系统。展示站点使用独立 `gh-pages` 分支，只含网页、真实运行截图和无版权合成样例。
+
 ## 开始使用（Windows）
 
 在仓库中双击 **`start-demo.bat`**，或在项目目录运行：
@@ -80,4 +88,4 @@ python tools/release_audit.py
 
 自动化验收生成无版权合成视频和合成音频，验证视频确实有烧录文字像素、输出音轨、正确时长、包装报告和下载行为。**机器测试通过不代表任何真人口播成片已通过商业化审美验收**。
 
-GitHub 仓库当前为私有，仅用于个人求职作品及后续迭代；本项目没有授权公开任何客户素材。用户负责业务需求、质量标准、反馈和验收；代码由 AI 协助开发和测试，详见 `docs/PROJECT_STORY.md`。
+本仓库用于个人求职作品展示和后续迭代，不包含或授权公开任何客户素材；展示页中的媒体均为本地生成的无版权合成样例。需求、质量标准、反馈和验收由项目发起人确定；代码由 AI 协助开发和测试，详见 `docs/PROJECT_STORY.md`。
