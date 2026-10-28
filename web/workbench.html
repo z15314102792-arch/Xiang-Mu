@@ -6,7 +6,7 @@
 a{color:var(--a);text-decoration:none}button,select,input,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.4;cursor:default}
 .container{max-width:1260px;margin:auto;padding:0 24px}.top{height:74px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--edge)}.brand{font-size:20px;font-weight:900}.brand span{color:var(--a)}
 .hero{padding:30px 0}.hero small{color:var(--a);letter-spacing:2px}.hero h1{font-size:36px;line-height:1.3;margin:8px 0}.hero p{color:#b8cbd7;max-width:900px}.note{background:#332b2066;color:#f3d6a3;border:1px solid #66533e;padding:11px 14px;border-radius:9px;font-size:12px}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:15px 0 22px}.step{background:#182b3c;border:1px solid var(--edge);padding:12px 15px;border-radius:10px}.step small{color:var(--a);display:block;font-size:11px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:15px 0 22px}.step{background:#182b3c;border:1px solid var(--edge);padding:12px 15px;border-radius:10px}.step small{color:var(--a);display:block;font-size:11px}
 .main{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}.card{border:1px solid var(--edge);background:var(--p);border-radius:13px;margin-bottom:15px;overflow:hidden}.card h2{font-size:15px;margin:0;padding:15px 18px;border-bottom:1px solid var(--edge)}.body{padding:18px}.field{display:block;margin-bottom:14px;font-size:12px;color:#c7dae5}.field input,.field select{display:block;width:100%;margin-top:6px;padding:9px;border:1px solid #38586a;border-radius:8px;background:#0b1a29;color:var(--txt)}input[type=file]{font-size:12px}
 .btn{padding:9px 13px;background:#254358;border:1px solid #466a79;color:#f0f8ff;border-radius:8px;font-size:12px;font-weight:800}.btn:hover{background:#30546b}.btn.primary{background:var(--a);color:#15322e;border-color:var(--a)}.btnrow{display:flex;gap:8px;flex-wrap:wrap}
 .help{font-size:12px;color:var(--dim);margin:9px 0}.state{background:#0d3040;border:1px solid #2d6371;color:#b9dde4;padding:12px 14px;border-radius:9px;margin-top:15px;font-size:12px;white-space:pre-wrap}.state.fail{background:#392429;border-color:#86474c;color:#ffa9a4}.state.ok{background:#173d32;border-color:#328d79;color:#a6efdb}
@@ -14,9 +14,9 @@ video{width:100%;max-height:320px;background:black;border-radius:8px}.cliplist{d
 footer{margin:25px 0 35px;padding-top:20px;border-top:1px solid #ffffff1a;color:var(--dim);font-size:12px}
 @media(max-width:850px){.main{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}}@media(max-width:540px){.container{padding:0 12px}.hero h1{font-size:27px}.body{padding:12px}}
 </style></head><body><div class="container">
-<header class="top"><div class="brand">Xiang <span>Mu</span> · WORKBENCH</div><nav><a href="/demo" target="_blank">历史问题演示</a></nav></header>
-<section class="hero"><small>REAL VIDEO PROCESSING / LOCAL FIRST</small><h1>可以真正剪出视频的口播工作台</h1><p>导入 MP4 → 识别停顿、按需转写 → 试听并调整保留片段 → 导出真正剪过的 MP4、字幕及质检报告。</p><div class="note">没有可靠的自动说话人识别：IP/操盘手必须人工标记。花字、BGM、音效自动包装尚未实现。项目文件只保存在本机，不上传到 GitHub。</div></section>
-<div class="steps"><div class="step"><small>STEP 01</small>导入真实视频</div><div class="step"><small>STEP 02</small>分析静音 / 语音转写</div><div class="step"><small>STEP 03</small>试听、选片、改字幕</div><div class="step"><small>STEP 04</small>导出实际成片</div></div>
+<header class="top"><div class="brand">Xiang <span>Mu</span> · WORKBENCH v1.2</div><nav><a href="/demo" target="_blank">历史问题演示</a></nav></header>
+<section class="hero"><small>REAL VIDEO PROCESSING / LOCAL FIRST</small><h1>可以真正剪出视频的口播工作台</h1><p>导入 MP4 → 试听并粗剪 → 配置字幕样式、花字动画、开头缓推、BGM/音效 → 实际导出带包装的 MP4、SRT 与质检报告。</p><div class="note">说话人必须人工标记；花字文案和时间点也由你设置。已支持真正烧录字幕/花字、混合自备 BGM/SFX，但不提供自动重点识别、智能选音效或完整商业剪辑模板。素材只存本机。</div></section>
+<div class="steps"><div class="step"><small>STEP 01</small>导入真实视频</div><div class="step"><small>STEP 02</small>分析静音 / 语音转写</div><div class="step"><small>STEP 03</small>试听、选片、改字幕</div><div class="step"><small>STEP 04</small>字幕/花字/BGM/SFX</div><div class="step"><small>STEP 05</small>渲染完整成片</div></div>
 <div class="main"><div>
 <section class="card"><h2>01 / 导入视频</h2><div class="body">
 <label class="field">选择视频（MP4 / MOV / MKV / WebM，最大 1.5GB）<input id="file" type="file" accept=".mp4,.mov,.mkv,.webm,video/*"></label>
@@ -25,17 +25,37 @@ footer{margin:25px 0 35px;padding-top:20px;border-top:1px solid #ffffff1a;color:
 <p class="help">实际文件位于本机「用户 Videos/XiangMu-workspace」。如果是私有素材，勿把工作区文件提交到 GitHub。</p>
 </div></section>
 <section class="card"><h2>02 / 原片逐段试听</h2><div class="body"><video id="player" controls preload="metadata"></video><p class="help" id="info">暂无视频。选择右侧片段的「试听」会跳转对应位置。</p></div></section>
-<section class="card"><h2>04 / 生成结果</h2><div class="body">
+<section class="card"><h2>05 / 生成最终成片</h2><div class="body">
 <label class="help"><input type="checkbox" id="reviewed"> 我已经实际听看、确认保留段及说话人</label>
-<p class="help">未人工确认时禁止导出，不能把静音算法建议直接当作最终剪辑。</p><button class="btn primary" id="export" disabled>导出实际 MP4 + SRT</button><div class="download" id="downloads"></div>
+<p class="help">未人工确认时禁止导出，不能把静音算法建议直接当作最终剪辑。</p><button class="btn primary" id="export" disabled>渲染成片 MP4（含字幕/花字/配乐）</button><div class="download" id="downloads"></div>
 </div></section></div>
-<section class="card"><h2>03 / 人工修剪与说话人标注</h2><div class="body">
+<div><section class="card"><h2>03 / 人工修剪与说话人标注</h2><div class="body">
 <div class="btnrow"><button class="btn" id="all" disabled>全保留</button><button class="btn" id="ip" disabled>仅保留标记为 IP 的片段</button><button class="btn" id="save" disabled>保存修改</button></div>
 <p class="help" id="count">未分析视频</p><p class="help">勾选保留；开始/结束秒数可修正；说话人需试听后选择。字幕文本可编辑，导出时会自动转换为剪辑后的时间轴。</p>
 <div class="cliplist" id="clips"><div class="empty">导入视频后，此处显示实际分析出的片段。</div></div>
-</div></section></div>
-<footer>本页面运行在本地 Python 服务上。历史规则模拟检查在 /demo，不与真实剪辑混淆。</footer>
-</div><script>
+</div></section>
+<section class="card" id="packagePanel"><h2>04 / 视频包装｜字幕 · 花字 · 动画 · 配乐</h2><div class="body">
+<p class="help">以下设置会实际渲染到最终 MP4，不只是记录参数。字幕与花字为硬字幕；另可下载独立 SRT。时间按<strong>粗剪后成片时间轴</strong>计算。</p>
+<div class="btnrow"><label class="help"><input type="checkbox" id="subtitleEnabled" checked> 烧录字幕</label><label class="help"><input type="checkbox" id="openingZoom"> 0–约 2.5 秒开场缓推（约 10%）</label></div>
+<div class="controls"><label>字幕大小<input id="subtitleSize" type="number" min="18" max="90" value="46"></label><label>底部留白 (%)<input id="subtitleBottom" type="number" min="4" max="40" value="13"></label>
+<label>字幕出场动画<select id="subtitleAnimation"><option value="fade">淡入淡出</option><option value="pop">轻弹入场</option><option value="none">无动画</option></select></label></div>
+<label class="field">字幕颜色<select id="subtitleColor"><option value="#FFFFFF">白色</option><option value="#FFD85C">金黄色</option><option value="#7CE8CE">薄荷绿</option><option value="#FF9FAF">粉红</option><option value="#9ED4FF">浅蓝</option></select></label>
+<div class="btnrow" style="align-items:center;justify-content:space-between"><strong>重点花字</strong><button class="btn" id="addFlower">+ 添加花字</button></div>
+<p class="help">手动填写短文案、成片起止秒数、位置和动画；避免把普通叙述全部做成花字。单条最长 24 字。</p>
+<div id="flowerList" class="cliplist" style="max-height:420px;margin:10px 0"></div>
+<div style="border-top:1px solid #344f62;margin:16px 0"></div>
+<label class="help"><input type="checkbox" id="bgmEnabled"> 启用背景音乐（循环、淡入淡出）</label>
+<div class="controls" style="grid-template-columns:2fr 1fr"><label>本地背景音乐<input type="file" id="bgmFile" accept="audio/*" style="width:100%"></label><label>音量 0–0.8<input type="number" id="bgmVolume" value="0.12" min="0" max="0.8" step="0.01"></label></div>
+<div class="btnrow"><button class="btn" id="sendBgm" disabled>上传 BGM</button><span class="help" id="bgmState">尚无音乐文件</span></div>
+<div style="border-top:1px solid #344f62;margin:16px 0"></div>
+<label class="help"><input type="checkbox" id="sfxEnabled"> 启用强调音效</label>
+<div class="controls"><label>本地音效文件<input type="file" id="sfxFile" accept="audio/*" style="width:100%"></label><label>出场秒数<input type="number" id="sfxTime" value="0.6" min="0" step="0.1"></label><label>音量 0–0.8<input type="number" id="sfxVolume" value="0.14" min="0" max="0.8" step="0.01"></label></div>
+<div class="btnrow"><button class="btn" id="sendSfx" disabled>上传音效</button><span class="help" id="sfxState">尚无音效文件</span></div>
+<div style="margin-top:15px" class="btnrow"><button class="btn primary" id="savePackage" disabled>保存包装设置</button><span class="help" id="packageState">导入视频后即可编辑包装。</span></div>
+<p class="help">最终效果需通过左侧“导出实际 MP4”渲染；渲染后点“预览剪辑结果”检查。没有素材授权的 BGM/SFX 不要用于商业作品。</p>
+</div></section></div></div>
+<footer>本地 Python + FFmpeg 实际生成成片。每次修改包装后须重新导出并预览；历史质检模拟保留在 /demo。</footer>
+</div><script src="/packaging.js"></script><script>
 const el=id=>document.getElementById(id), auth={"X-Workflow-Local":"1"};
 let job=null, rows=[], timer=null;
 function err(s){el("state").className="state fail";el("state").textContent=s}
@@ -44,7 +64,7 @@ function info(s){el("state").className="state";el("state").textContent=s}
 async function read(url){let r=await fetch(url),v=await r.json();if(!r.ok)throw Error(v.error||r.status);return v}
 async function post(url,v){let r=await fetch(url,{method:"POST",headers:{...auth,"Content-Type":"application/json"},body:JSON.stringify(v)}),d=await r.json();if(!r.ok)throw Error(d.error||r.status);return d}
 function protect(v){return String(v||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function can(x){["all","ip","save","export"].forEach(k=>el(k).disabled=!x)}
+function can(x){["all","ip","save","export","savePackage","sendBgm","sendSfx"].forEach(k=>el(k).disabled=!x)}
 function refreshCount(){el("count").textContent=rows.length+" 段候选；保留 "+rows.filter(x=>x.keep).length+" 段"}
 function editUI(){
  refreshCount();
@@ -74,12 +94,13 @@ function watch(){if(timer)return;timer=setInterval(async()=>{if(!job)return;try{
 function downloads(){
  if(!job||!job.report){el("downloads").innerHTML="";return;}
  let d=job.report, div=el("downloads");div.innerHTML="";
- let p=document.createElement("p");p.className="help";p.textContent="实际导出 "+d.actualOutputSeconds+" 秒；保留 "+d.selectedSegments+" 段；字幕 "+d.subtitleLines+" 条；时长核验 "+d.timingCheck;div.appendChild(p);
+ let p=document.createElement("p");p.className="help";p.textContent="实际导出 "+d.actualOutputSeconds+" 秒；保留 "+d.selectedSegments+" 段；字幕 "+d.subtitleLines+" 条；烧录字幕 "+(d.packaging?.burnedSubtitleLines||0)+" 条；花字 "+(d.packaging?.animatedFlowers||0)+" 条；混音 "+(d.packaging?.bgmMixed?"BGM ":"")+(d.packaging?.sfxMixed?"SFX":"")+"；时长核验 "+d.timingCheck;div.appendChild(p);
  for(let [k,t] of [["video","下载成片 MP4"],["srt","下载 SRT 字幕"],["report","下载质检报告"]]){let l=document.createElement("a");l.href="/api/real/file/"+job.id+"/"+k;l.download=l.textContent=t;div.appendChild(l)}
  let b=document.createElement("button");b.className="btn";b.textContent="▶ 预览剪辑结果";b.onclick=()=>{el("player").src="/api/real/file/"+job.id+"/video";el("player").play().catch(()=>{})};div.appendChild(b);
 }
 function showJob(x){
  const was=job?.status, oldId=job?.id;job=x;
+ if(oldId!==job.id)restorePackage(job);
  if(oldId!==job.id||!el("player").src){el("player").src="/api/real/file/"+job.id+"/source"}
  el("info").textContent=job.info?job.name+" · "+job.info.width+"×"+job.info.height+" · "+job.info.duration+"秒":job.name;
  if(job.status==="review"||job.status==="ready"){
@@ -102,7 +123,7 @@ el("all").onclick=()=>{rows.forEach(x=>x.keep=true);editUI()};
 el("ip").onclick=()=>{if(!rows.some(x=>x.speaker==="IP")){err("请先人工标注 IP 片段");return}rows.forEach(x=>x.keep=x.speaker==="IP");editUI()};
 el("save").onclick=async()=>{try{let j=await post("/api/real/plan",{id:job.id,segments:rows});job=j;rows=structuredClone(j.segments);editUI();ok("已保存修改")}catch(e){err("保存失败："+e.message)}};
 el("export").onclick=async()=>{if(!el("reviewed").checked){err("必须先人工试听/观看并勾选确认");return}
- try{await post("/api/real/export",{id:job.id,segments:rows,reviewed:true});info("正在用 FFmpeg 实际导出视频……");el("downloads").innerHTML="";can(false);job.status="exporting";watch()}catch(e){err("导出失败："+e.message)}};
+ try{job=await post("/api/real/packaging",{id:job.id,packaging:packagingConfig()});await post("/api/real/export",{id:job.id,segments:rows,reviewed:true});info("正在用 FFmpeg 实际剪切、烧录花字字幕并混音……");el("downloads").innerHTML="";can(false);job.status="exporting";watch()}catch(e){err("导出失败："+e.message)}};
 (async()=>{try{let h=await read("/api/real/health");el("engine").textContent="FFmpeg "+(h.ok?"已就绪":"未找到")+"；本地 Whisper tiny："+(h.whisperTinyCached?"已缓存":"未缓存")+"；small："+(h.whisperSmallCached?"已缓存":"未缓存");if(h.whisperTinyCached)el("asr").value="tiny";el("upload").disabled=!h.ok;
  let last=localStorage.getItem("xiangMuLast");if(last){try{showJob(await read("/api/real/job/"+last))}catch(e){localStorage.removeItem("xiangMuLast")}}
  }catch(e){err("后端未启动："+e.message)}})();

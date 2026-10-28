@@ -285,9 +285,15 @@ def export_job(job_id: str, rows, reviewed: bool) -> dict:
         raise ValueError("请先等待分析完成")
     if reviewed is not True:
         raise ValueError("须先看听原片并确认保留段；不能把自动建议当作已验收")
+    import package_render
     clean = validate_segments(rows, job["info"]["duration"])
+    conf = package_render.validate(job.get("packaging"))
+    if conf["bgmEnabled"] and "bgm" not in job.get("audioFiles", {}):
+        raise ValueError("BGM 已打开，但还未上传音频文件")
+    if conf["sfxEnabled"] and "sfx" not in job.get("audioFiles", {}):
+        raise ValueError("SFX 已打开，但还未上传音效文件")
     write_job(job_id, {"segments": clean, "status": "exporting",
-                       "progress": "正在按人工确认的时间段生成 MP4", "report": None})
+                       "progress": "正在按人工确认的时间段生成 MP4 和包装", "report": None, "rendered": None})
     threading.Thread(target=_render_job, args=(job_id,), daemon=True).start()
     return {"id": job_id, "status": "exporting"}
 
@@ -332,7 +338,14 @@ def _render_job(job_id: str) -> None:
             for i, (start, end, content) in enumerate(srt, 1)
         )
         (folder / "subtitles.srt").write_text(srt_body + ("\n" if srt else ""), encoding="utf-8-sig")
-        result = probe(dst)
+        import package_render
+        config = package_render.validate(job.get("packaging"))
+        audio_paths = {key: folder / name for key, name in job.get("audioFiles", {}).items()}
+        write_job(job_id, {"progress": "粗剪完成，正在渲染字幕、花字动画与音效"})
+        rendered_path, packaging_report = package_render.package_video(
+            folder, dst, offset, {**info, "hasAudio": has_audio}, srt, config, audio_paths
+        )
+        result = probe(rendered_path)
         expected = sum(p["end"] - p["start"] for p in selected)
         duration_delta = abs(result["duration"] - expected)
         report = {
@@ -343,22 +356,25 @@ def _render_job(job_id: str) -> None:
             "selectedSegments": len(selected),
             "removedSegments": len(job["segments"]) - len(selected),
             "subtitleLines": len(srt),
+            "packaging": packaging_report,
             "manualReviewConfirmedByUser": True,
             "timingCheck": "passed" if duration_delta < max(0.55, expected * 0.035) else "needs_review",
-            "capabilities": ["本地视频分析", "FFmpeg 真实裁剪", "用户确认保留段", "SRT 时间重映射"],
-            "limitations": ["没有自动可靠区分 IP/操盘手", "没有自动花字/BGM/音效包装",
+            "capabilities": ["本地视频分析", "FFmpeg 真实裁剪", "SRT 时间重映射",
+                             "ASS 硬字幕与花字动画", "可选 BGM/SFX 混音", "可选开场缓推"],
+            "limitations": ["没有自动可靠区分 IP/操盘手", "花字内容和时间需要用户手动设定",
                             "语音转写与静音建议需要人工复核", "人工确认由用户声明，系统无法代替试听审片"],
         }
         (folder / "quality_report.json").write_text(
             json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
-        write_job(job_id, {"status": "ready", "progress": "实际视频与字幕已导出", "report": report})
+        write_job(job_id, {"status": "ready", "progress": "成片、包装字幕与音效已实际导出",
+                           "rendered": rendered_path.name, "report": report})
     except Exception as exc:
         write_job(job_id, {"status": "failed", "progress": "导出失败：" + str(exc)[-900:]})
 
 
 def job_asset(job_id: str, kind: str) -> Path:
     job = read_job(job_id)
-    allowed = {"source": job["source"], "video": "cut_video.mp4",
+    allowed = {"source": job["source"], "video": job.get("rendered") or "cut_video.mp4",
                "srt": "subtitles.srt", "report": "quality_report.json"}
     if kind not in allowed:
         raise ValueError("未知文件类型")
@@ -368,3 +384,53 @@ def job_asset(job_id: str, kind: str) -> Path:
     if not path.is_file():
         raise FileNotFoundError("文件尚未生成")
     return path
+
+
+def save_packaging(job_id: str, data: dict) -> dict:
+    """单独保存可实际渲染的包装设置；旧成片立即失效。"""
+    from package_render import validate
+    job = read_job(job_id)
+    if job["status"] not in {"review", "ready"}:
+        raise ValueError("项目未完成分析，或正在导出")
+    conf = validate(data)
+    return write_job(job_id, {"packaging": conf, "status": "review",
+                              "rendered": None, "report": None,
+                              "progress": "包装设置已保存，请人工复核后重新导出"})
+
+
+def upload_audio(job_id: str, kind: str, filename: str, src, length: int) -> dict:
+    """用户提供音频素材，仅允许写入项目工作区，不允许相对路径注入。"""
+    if kind not in {"bgm", "sfx"}:
+        raise ValueError("音频类型只能是 bgm 或 sfx")
+    if not 0 < length <= 50_000_000:
+        raise ValueError("单个音乐/音效文件不可超过 50MB")
+    suffix = Path(filename).suffix.lower()
+    if suffix not in {".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac"}:
+        raise ValueError("音频只能为 MP3/WAV/M4A/AAC/OGG/FLAC")
+    job = read_job(job_id)
+    if job["status"] not in {"review", "ready"}:
+        raise ValueError("当前项目无法修改音频")
+    target = job_dir(job_id) / (kind + suffix)
+    temp = target.with_suffix(target.suffix + ".upload")
+    try:
+        remaining = length
+        with temp.open("wb") as out:
+            while remaining:
+                block = src.read(min(remaining, 1024*1024))
+                if not block:
+                    raise ValueError("音频上传中断")
+                out.write(block)
+                remaining -= len(block)
+        probe_result = run([tool("ffprobe"), "-v", "error", "-select_streams", "a:0",
+                            "-show_entries", "stream=codec_name", "-of", "json", str(temp)])
+        parsed = json.loads(probe_result.stdout)
+        if not parsed.get("streams"):
+            raise ValueError("文件无可解码音频轨")
+        temp.replace(target)
+    finally:
+        temp.unlink(missing_ok=True)
+    audio_files = dict(job.get("audioFiles") or {})
+    audio_files[kind] = target.name
+    return write_job(job_id, {"audioFiles": audio_files, "status": "review",
+                              "report": None, "rendered": None,
+                              "progress": f"{kind.upper()} 已上传；可配置音量和时间后重新导出"})

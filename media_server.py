@@ -79,6 +79,15 @@ class Handler(DemoHandler):
             return self.send_page("workbench.html")
         if path == "/demo":
             return self.send_page("index.html")
+        if path == "/packaging.js":
+            raw = (ROOT / "web" / "packaging.js").read_bytes()
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", "application/javascript; charset=utf-8")
+            self.send_header("Content-Length", str(len(raw)))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(raw)
+            return
         if path == "/api/real/health":
             return self.respond_json({"ok": bool(media.shutil.which("ffmpeg") and media.shutil.which("ffprobe")),
                                       "whisperTinyCached": media.whisper_cache("tiny").is_file(),
@@ -118,6 +127,14 @@ class Handler(DemoHandler):
                 length = int(self.headers.get("Content-Length", "0"))
             except ValueError:
                 raise ValueError("请求体大小不合法")
+            if path == "/api/real/audio":
+                if not 0 < length <= 50_000_000:
+                    raise ValueError("上传音频不得超过 50MB")
+                query = parse_qs(urlparse(self.path).query)
+                job_id = (query.get("id") or [""])[0]
+                kind = (query.get("kind") or [""])[0]
+                name = (query.get("name") or [""])[0]
+                return self.respond_json(media.upload_audio(job_id, kind, name, self.rfile, length))
             if path == "/api/real/upload":
                 if not 0 < length <= media.MAX_UPLOAD_BYTES:
                     raise ValueError("视频文件为空或超过 1.5GB")
@@ -135,6 +152,8 @@ class Handler(DemoHandler):
                 raise ValueError("请求必须为 JSON 对象")
             if path == "/api/real/plan":
                 return self.respond_json(media.save_plan(str(data.get("id", "")), data.get("segments")))
+            if path == "/api/real/packaging":
+                return self.respond_json(media.save_packaging(str(data.get("id", "")), data.get("packaging")))
             if path == "/api/real/export":
                 return self.respond_json(
                     media.export_job(str(data.get("id", "")), data.get("segments"),

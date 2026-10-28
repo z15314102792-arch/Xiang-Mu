@@ -14,6 +14,7 @@ sys.path.insert(0, str(ROOT))
 import media_workflow as mw
 import media_server
 from test_media_real import synthetic_video, wait_status
+from test_packaging_real import wav_tone
 
 
 class RealHTTPTests(unittest.TestCase):
@@ -33,6 +34,8 @@ class RealHTTPTests(unittest.TestCase):
                         self.assertIn(b"REAL VIDEO PROCESSING", res.read())
                     with request.urlopen(base + "/demo", timeout=4) as res:
                         self.assertIn(b"Workflow", res.read())
+                    with request.urlopen(base + "/packaging.js", timeout=4) as res:
+                        self.assertIn(b"renderFlowers", res.read())
                     body = video.read_bytes()
                     no_auth = request.Request(base + "/api/real/upload?name=test.mp4&asr=off",
                                               data=body, method="POST")
@@ -54,6 +57,25 @@ class RealHTTPTests(unittest.TestCase):
                     with request.urlopen(src, timeout=5) as res:
                         self.assertEqual(res.status, 206)
                         self.assertEqual(len(res.read()), 32)
+                    music = folder / "test_music.wav"
+                    wav_tone(music, 1.0, 320)
+                    audio_req = request.Request(
+                        base + "/api/real/audio?id=" + jid + "&kind=bgm&name=music.wav",
+                        data=music.read_bytes(),
+                        headers={"X-Workflow-Local": "1"}, method="POST")
+                    with request.urlopen(audio_req, timeout=8) as res:
+                        self.assertEqual(json.load(res)["audioFiles"]["bgm"], "bgm.wav")
+                    cfg = {"id": jid, "packaging": {
+                        "subtitleEnabled": True, "subtitleAnimation": "fade",
+                        "bgmEnabled": True, "bgmVolume": 0.1,
+                        "flowers": [{"text": "核心要点", "start": 0.3, "end": 1.2,
+                                     "animation": "pop", "position": "upper", "color": "#FFD85C"}]}}
+                    conf_req = request.Request(
+                        base + "/api/real/packaging", data=json.dumps(cfg).encode(),
+                        headers={"X-Workflow-Local": "1", "Content-Type": "application/json"},
+                        method="POST")
+                    with request.urlopen(conf_req, timeout=8) as res:
+                        self.assertEqual(len(json.load(res)["packaging"]["flowers"]), 1)
                     payload = json.dumps({"id": jid, "segments": part, "reviewed": True}).encode()
                     export = request.Request(base + "/api/real/export", data=payload,
                                             headers={"X-Workflow-Local": "1", "Content-Type": "application/json"},
@@ -65,6 +87,9 @@ class RealHTTPTests(unittest.TestCase):
                     with request.urlopen(base + "/api/real/file/" + jid + "/report", timeout=5) as res:
                         report = json.load(res)
                     self.assertEqual(report["selectedSegments"], 2)
+                    self.assertEqual(report["packaging"]["animatedFlowers"], 1)
+                    self.assertTrue(report["packaging"]["bgmMixed"])
+                    self.assertEqual(report["packaging"]["burnedSubtitleLines"], 2)
                     with request.urlopen(base + "/api/real/file/" + jid + "/srt", timeout=5) as res:
                         self.assertIn("你好", res.read().decode("utf-8-sig"))
                     with request.urlopen(base + "/api/real/file/" + jid + "/video", timeout=5) as res:
