@@ -51,12 +51,13 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:2px solid va
 <div class="sectionhead"><h2>01 / 七道质量门槛</h2><p>节点独立检查，阻断原因可以追溯</p></div>
 <div class="pipeline" id="pipeline"></div>
 <div class="sectionhead"><h2>02 / 历史问题回放</h2><p>选择案例 → 运行判定 → 查看触发规则与修复建议</p></div>
+<p style="color:#b4c7d7;margin:0 0 8px;font-size:12px">第一次使用：① 点击左侧「花字凑数」 → ② 查看右侧红色错误原因 → ③ 再点击「规范素材」对比通过状态。</p>
 <div class="workspace">
 <aside class="panel"><div class="panelhead"><strong>案例数据库</strong><small id="caseNum">加载中</small></div><div class="case-list" id="caseList"></div></aside>
 <section class="panel"><div class="panelhead"><strong>质量检查工作台</strong><small>本地运行 · 无上传</small></div><div class="panelbody">
 <div class="outcome" id="outcome"><div><b>正在载入案例</b><span>使用 Python 标准库运行质检</span></div></div>
 <div class="title-row"><h3 id="caseTitle">—</h3><p id="caseStory">—</p></div>
-<div class="check-grid" id="gateGrid"></div>
+<div class="check-grid" id="gateGrid"></div><p style="color:#809bab;font-size:11px;margin-top:-10px">注：颜色由案例提供的报告和当前规则结果组合而成，不代表程序已检测真实音视频。</p>
 <div id="findings"></div>
 <div class="toolrow"><button class="btn primary" id="rerun">复测当前案例</button><button class="btn" id="runall">运行全量回归</button><span class="reporttext" id="actionMsg"></span></div>
 <details class="details"><summary>高级演示：修改案例 JSON 并重新质检（只在本地内存运行）</summary>
@@ -95,7 +96,8 @@ function renderResult(r,input){
  $("outcome").className="outcome"+(ok?" ok":"");
  $("outcome").innerHTML=`<div><b>${ok?"机械质检通过":"已阻断不合格计划"}</b><span>${ok?"下一步：真实成片人工审片（尚未完成）":"修复触发规则后，必须重新回归测试"}</span></div><div class="score">${ok?"WAITING FOR REVIEW":r.failCount+" FINDINGS"}</div>`;
  $("caseTitle").textContent=r.title;
- $("gateGrid").innerHTML=gateNames.map(([id,name])=>`<div class="check ${input?.reports?.[id]==="passed"?"":"bad"}">${input?.reports?.[id]==="passed"?"✓":"!"} ${name}</div>`).join("");
+ const prefixMap={structure:[],take:["ROUGH-"],semantic:["SUB-"],flower:["FLOWER-"],sfx:["SFX-"],audio:["BGM-"],technical:["WORKFLOW-","RULE-LOCK","INPUT-"]};
+ $("gateGrid").innerHTML=gateNames.map(([id,name])=>{const failed=(r.findings||[]).some(x=>(prefixMap[id]||[]).some(p=>x.ruleId?.startsWith(p)));const pass=input?.reports?.[id]==="passed"&&!failed;return `<div class="check ${pass?"":"bad"}">${pass?"✓":"!"} ${name}</div>`}).join("");
  $("findings").innerHTML=r.findings.length?r.findings.map(x=>`<div class="finding"><div class="finding-title"><strong>${esc(x.stage)} · ${esc(x.message)}</strong><span class="pill">${esc(x.ruleId)}</span></div><p>处理建议</p><em>${esc(x.suggestion)}</em></div>`).join(""):`<div class="empty">✓ 当前结构化计划没有触发已实现的机械阻断规则。<br>注意：真实声画质量、主观风格和业务适配仍需人工验收。</div>`;
 }
 function selectCase(id){
