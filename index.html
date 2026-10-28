@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Xiang Mu｜AI 口播视频工作流 · 项目展示</title>
+<meta name="description" content="Xiang Mu：一套从实际视频导入、停顿分析、人工复核，到字幕花字动画和音频包装的本地视频工作流。查看产品界面、功能、输出样例与实现过程。">
+<meta name="theme-color" content="#0b1424">
+<style>
+:root{color-scheme:dark;--bg:#090f1b;--panel:#121e2f;--surface:#172638;--stroke:#34485a;--fg:#edf5fd;--muted:#acc0d0;--aqua:#85ebd1;--soft:#d3e5f3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse 85% 40% at 85% 0%,#15424a75,transparent),var(--bg);color:var(--fg);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Microsoft YaHei","PingFang SC",sans-serif}
+a{color:inherit;text-decoration:none}.wrap{width:min(1160px,calc(100% - 48px));margin:auto}
+.top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff20;padding:20px 0;gap:12px}
+.logo{font-size:22px;letter-spacing:-.5px;font-weight:900}.logo b{color:var(--aqua)}.topnav{display:flex;gap:24px;color:var(--muted);font-size:13px}.topnav a:hover{color:var(--aqua)}
+.hero{padding:88px 0 52px;max-width:970px}.eyebrow{text-transform:uppercase;color:var(--aqua);font-size:12px;font-weight:800;letter-spacing:2.5px}
+h1{font-size:clamp(38px,6.2vw,74px);letter-spacing:-2px;line-height:1.2;margin:18px 0 23px}h1 span{color:var(--aqua)}
+.lead{font-size:clamp(17px,2vw,21px);color:#c1d6e4;max-width:850px;line-height:1.8}.actions{display:flex;flex-wrap:wrap;gap:12px;margin:29px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 21px;border:1px solid #4d6c7c;border-radius:11px;font-size:14px;font-weight:700;background:#1b3547}
+.btn.primary{background:var(--aqua);color:#082927;border-color:var(--aqua)}.btn:hover{transform:translateY(-1px)}.meta{display:flex;gap:24px;flex-wrap:wrap;font-size:12px;color:#a5bbca;margin-top:32px}.meta strong{color:var(--fg)}
+.rule{border-top:1px solid #ffffff19}
+.section{padding:69px 0}.sectnum{color:var(--aqua);font-size:12px;font-weight:800;letter-spacing:1.6px}
+h2{font-size:clamp(26px,3.5vw,39px);letter-spacing:-.7px;line-height:1.32;margin:10px 0 15px}p{margin:10px 0}.sub{color:var(--muted);max-width:820px;margin-bottom:26px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.tile{border:1px solid var(--stroke);border-radius:16px;padding:25px;background:linear-gradient(150deg,#1a2b3d,#0e1b29)}.tile small{font-size:11px;letter-spacing:1px;color:var(--aqua);font-weight:900}.tile h3{font-size:18px;margin:10px 0 7px}.tile p{font-size:14px;color:#b6c9d6;margin:0;line-height:1.75}
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:31px}
+.step{padding:18px 14px;background:#122338;border:1px solid #385769;border-radius:13px;min-width:0}.step small{color:var(--aqua);font-size:11px;display:block;font-weight:700}.step b{display:block;margin:9px 0;font-size:14px}.step span{display:block;color:#9db7c6;font-size:12px;line-height:1.6}
+.mediaGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:start}
+.mediaCard{background:#101d2b;border:1px solid #344b5a;border-radius:17px;overflow:hidden}.mediaCard img{display:block;width:100%;height:auto}.mediaCard .cap{padding:16px 19px;font-size:12px;color:var(--muted);border-top:1px solid #ffffff1a}
+.videoWrap{display:flex;flex-direction:column;align-items:center;background:linear-gradient(125deg,#192b3a,#101824);border:1px solid #344b5a;border-radius:17px;padding:22px}
+.videoWrap video{display:block;width:min(100%,262px);max-height:480px;object-fit:contain;border-radius:10px;background:#070c12}.caption{font-size:12px;color:var(--muted);margin-top:16px}
+.footnote{font-size:12px;color:#a4bcca;border:1px solid #3b5163;background:#132235;border-radius:12px;padding:15px 18px;margin-top:24px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}.plain{padding:25px;border-radius:14px;background:#142538;border:1px solid #2e465a}.plain h3{margin:0 0 12px;font-size:18px}.plain p{font-size:14px;color:#bed0dc}
+.mini{font-size:12px;color:#9eb5c6}.accent{color:var(--aqua)}
+footer{padding:32px 0 65px;border-top:1px solid #ffffff22;color:#91aabc;font-size:13px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:920px){.pipeline{grid-template-columns:repeat(3,1fr)}.mediaGrid{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.wrap{width:calc(100% - 28px)}.topnav{gap:12px}.hero{padding:55px 0 38px}h1{letter-spacing:-1px}.section{padding:45px 0}.pipeline{grid-template-columns:repeat(2,1fr)}.grid,.two{grid-template-columns:1fr}.tile,.plain{padding:20px}.meta{gap:10px 20px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style></head><body>
+<div class="wrap"><header class="top">
+  <div class="logo">Xiang <b>Mu</b><span style="font-size:11px;vertical-align:middle;font-weight:500;color:#a8c3ce;margin-left:8px">WORKFLOW</span></div>
+  <nav class="topnav"><a href="#features">功能</a><a href="#demo">演示</a><a href="#implementation">实现</a></nav>
+</header>
+<main>
+<section class="hero">
+ <div class="eyebrow">AI 应用工作流 · 个人实践项目 · v1.2</div>
+ <h1>从真实素材到<br><span>可交付的口播视频</span></h1>
+ <p class="lead">Xiang Mu 是一套本地口播视频处理工作台，围绕实际使用中容易出现的停顿、重复 take、字幕断句和后期包装问题，将视频处理、人工复核、质量控制与成片导出串成一个完整流程。</p>
+ <div class="actions"><a class="btn primary" href="#demo">观看实际输出样例 <span aria-hidden="true">↗</span></a><a class="btn" href="#features">了解处理流程 <span aria-hidden="true">↓</span></a></div>
+ <div class="meta"><span>实际处理引擎：<strong>Python + FFmpeg</strong></span><span>本地语音转写：<strong>Whisper（可选）</strong></span><span>回归测试：<strong>18 / 18</strong></span><span>状态：<strong>可本地运行的 v1.2</strong></span></div>
+</section>
+</main></div>
+<section class="rule" id="features"><div class="wrap section">
+ <div class="sectnum">01 / PRODUCT CAPABILITY</div><h2>不是只有功能展示，而是真正完成媒体处理</h2>
+ <p class="sub">网页是操作入口，FFmpeg / libass 负责实际视频剪切、字幕花字渲染与声音合成。所有功能以最终生成的视频文件为验收对象。</p>
+ <div class="grid">
+  <article class="tile"><small>INPUT & ANALYSIS</small><h3>视频导入和停顿分析</h3><p>导入 MP4 等素材，读取视频信息，识别静音区间，生成粗剪候选片段。</p></article>
+  <article class="tile"><small>HUMAN REVIEW</small><h3>逐段试听与保留决策</h3><p>人工调整时间点、拆分连续片段、标记说话人，并复核口误与重说部分。</p></article>
+  <article class="tile"><small>SUBTITLE</small><h3>字幕与基础入场动画</h3><p>编辑字幕内容、字号、颜色和位置；可烧录淡入或轻弹动画，并导出独立 SRT。</p></article>
+  <article class="tile"><small>ANIMATED TITLES</small><h3>花字内容和出现时间</h3><p>逐条设置重点文案、颜色、画面位置，以及弹入、淡入和上浮动画。</p></article>
+  <article class="tile"><small>AUDIO PACKAGING</small><h3>BGM 与音效混音</h3><p>使用自备音乐与音效设置音量、时机，音乐可循环并添加淡入淡出。</p></article>
+  <article class="tile"><small>DELIVERABLES</small><h3>实际成片与质检报告</h3><p>输出 H.264 MP4、SRT 字幕和 JSON 质检信息，复核片段数量、时长与包装状态。</p></article>
+ </div>
+ <div class="pipeline">
+  <div class="step"><small>STEP 01</small><b>导入素材</b><span>视频、音轨、元信息</span></div>
+  <div class="step"><small>STEP 02</small><b>分析停顿</b><span>生成候选裁剪区间</span></div>
+  <div class="step"><small>STEP 03</small><b>人工复核</b><span>分段、说话人和字幕</span></div>
+  <div class="step"><small>STEP 04</small><b>字幕与包装</b><span>花字、动画与音效</span></div>
+  <div class="step"><small>STEP 05</small><b>导出校验</b><span>MP4、SRT、报告</span></div>
+ </div>
+</div></section>
+<section class="rule" id="demo"><div class="wrap section">
+ <div class="sectnum">02 / WORKING PRODUCT & OUTPUT</div><h2>操作界面与实际渲染样例</h2>
+ <p class="sub">下方是运行中的真实项目界面截图，以及使用项目渲染程序制作的合成素材样例。样例用于验证动画和字幕效果，不冒充客户商业成片。</p>
+ <div class="mediaGrid">
+  <figure class="mediaCard" style="margin:0">
+    <img src="assets/workbench.png" alt="Xiang Mu 本地视频工作台真实运行截图，包括导入、粗剪和包装配置" loading="lazy">
+    <figcaption class="cap">实际运行界面截图｜v1.2 本地工作台</figcaption>
+  </figure>
+  <div class="videoWrap">
+   <video controls playsinline preload="metadata" poster="" aria-label="字幕花字动画实际输出样例"><source src="assets/render-demo.mp4" type="video/mp4">浏览器不支持该视频。</video>
+   <p class="caption">由 FFmpeg + ASS 真实编码的视频样例（合成测试画面，无客户素材）</p>
+  </div>
+ </div>
+ <p class="footnote"><strong>展示页与编辑器的区别：</strong>这个网址用于长期展示项目，视频可直接播放；真正的视频上传、剪辑和导出运行在独立的本地 Python 工作台。为了避免访客上传敏感素材，展示页不会伪装成在线剪辑服务。</p>
+</div></section>
+<section class="rule" id="implementation"><div class="wrap section">
+ <div class="sectnum">03 / PROJECT THINKING</div><h2>从需求卡点到可验证的交付</h2>
+ <div class="two">
+  <article class="plain"><h3>为什么做</h3><p>口播剪辑不只是“自动识别语音并切掉静音”。实际素材里存在多人交替说话、重录、语义断句、花字出现时间、声音层级等问题。仅展示理想流程无法解决真实使用困难。</p><p>因此将方案拆分为：自动生成候选结果 → 人工校正关键判断 → 实际执行包装 → 最终文件质检。</p></article>
+  <article class="plain"><h3>怎么验收</h3><p>建立结构化规则与回归案例，再使用程序生成的音视频测试实际验证：是否真的裁剪、是否保留音轨、字幕时间是否对齐，画面是否出现花字，音乐和音效是否被混入最终 MP4。</p><p>目前已通过 <strong class="accent">18/18</strong> 项程序测试；真人口播素材的审美质量仍需要人工验收。</p></article>
+ </div>
+ <p class="footnote"><strong>能力边界：</strong>目前并不能稳定自动区分操盘手和出镜 IP，也没有实现自动识别全部口误、智能生成重点花字或自动匹配复杂模板。这是一个具备真实处理能力、允许人工复核的产品原型，不是完全无人值守的商业剪辑系统。</p>
+</div></section>
+<div class="wrap"><footer><span>© Xiang Mu · AI 应用与工作流实践项目</span><span>v1.2 · 项目展示页（无需本地电脑开机）</span></footer></div>
+</body></html>
