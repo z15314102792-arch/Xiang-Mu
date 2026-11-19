@@ -20,7 +20,7 @@
 | save-memory | memory_key、正文、类型、证据等 | Upsert 记忆记录 |
 | read-memory | 记忆查询条件 | 返回匹配的记忆记录 |
 | 读取项目进度 | project_name、limit | 返回项目进度、证据和更新时间 |
-| add-numbers | a、b | 返回结构化加法结果 |
+| Agent 工具演示工作流 | a、b | 独立的结构化加法示例，不计入 Agent 1 当前已连接的生产工具 |
 
 ## 3. 知识库入库链路
 
