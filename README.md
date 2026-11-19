@@ -146,6 +146,10 @@ python tools/release_audit.py
 
 当前测试集共 18 项，覆盖媒体分析、片段编辑校验、SRT 时间轴映射、HTTP 上传与导出、字幕花字渲染、BGM/SFX 混音及历史规则演示。
 
+## 关联项目
+
+- [n8n AI Agent 与知识库自动化系统](https://github.com/z15314102792-arch/n8n-ai-agent) — 独立的 n8n Agent、RAG 知识库、长期记忆与项目进度自动化项目。
+
 ## 项目设计与迭代
 
 项目问题拆解、剪辑流程设计、质量标准和功能验收记录见 [项目设计与迭代](./docs/PROJECT_STORY.md)。
