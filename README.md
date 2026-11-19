@@ -1,96 +1,151 @@
-# Xiang Mu｜口播剪辑工作台 v1.2
+# Xiang Mu｜本地口播视频剪辑工作台
 
-**可以实际导入视频并制作带包装的 MP4，不再只有粗剪和模拟 HTML。**
+**从真实视频素材到可交付的 MP4 成片。**
 
-项目提供本地 Python + FFmpeg + ASS 字幕工作台。数据留在个人电脑：真实视频、音频、草稿和成片不进入 GitHub。
+Xiang Mu 是一套运行在 Windows 本机的口播视频剪辑工作台。它将视频导入、静音分析、片段复核、字幕编辑、画面包装和成片导出整合在一个操作界面中。
 
-## 在线查看项目（GitHub Pages）
+- [在线项目首页](https://z15314102792-arch.github.io/Xiang-Mu/)
+- [实际操作演示](https://z15314102792-arch.github.io/Xiang-Mu/walkthrough.html)
+- [GitHub 源码](https://github.com/z15314102792-arch/Xiang-Mu)
+- [MP4 渲染样例](https://github.com/z15314102792-arch/Xiang-Mu/blob/gh-pages/assets/render-demo.mp4)
 
-**[Xiang Mu 项目展示页](https://z15314102792-arch.github.io/Xiang-Mu/)** · [实际操作界面截图](https://github.com/z15314102792-arch/Xiang-Mu/blob/gh-pages/assets/workbench.png) · [合成素材包装演示视频](https://github.com/z15314102792-arch/Xiang-Mu/blob/gh-pages/assets/render-demo.mp4)
+![Xiang Mu 本地视频工作台](https://raw.githubusercontent.com/z15314102792-arch/Xiang-Mu/gh-pages/assets/workbench.png)
 
-![Xiang Mu 视频工作台运行界面](https://raw.githubusercontent.com/z15314102792-arch/Xiang-Mu/gh-pages/assets/workbench.png)
+## 核心功能
 
-> GitHub Pages 是长期展示站点：电脑关机也能看项目功能和样例视频；真实视频剪辑/导出仍由本地 Python + FFmpeg 完成，不把静态展示页冒充云端剪辑系统。展示站点使用独立 `gh-pages` 分支，只含网页、真实运行截图和无版权合成样例。
+| 模块 | 功能 |
+|---|---|
+| 视频导入 | 支持 MP4、MOV、MKV、WebM，单文件最大 1.5GB |
+| 视频分析 | 使用 FFprobe 读取媒体信息，FFmpeg 检测静音区间并生成候选片段 |
+| 片段编辑 | 逐段试听、调整起止时间、拆分片段、选择保留范围 |
+| 说话人标注 | 为片段标记 IP、操盘手或其他类别 |
+| 语音转写 | 可选本地 Whisper tiny/small 模型，转写文本可人工编辑 |
+| 字幕 | 编辑字幕文本、字号、颜色、位置和入场动画；导出独立 SRT |
+| 重点花字 | 添加文案，设置剪后时间轴、位置、颜色和入场动画 |
+| 画面动画 | 可选开头约 2.5 秒、10% 的中心缓推 |
+| 音频包装 | 上传 BGM 并设置循环、淡入淡出和音量；上传音效并设置触发时间 |
+| 成片导出 | 使用 FFmpeg / libass 渲染 H.264/AAC MP4，并生成 SRT 和 JSON 质检报告 |
 
+## 工作流程
 
-## 其他项目
+```text
+导入视频
+   ↓
+读取媒体信息、分析静音区间
+   ↓
+逐段试听与人工复核
+   ↓
+调整片段、标记说话人、编辑字幕
+   ↓
+配置花字、开场动画、BGM 与音效
+   ↓
+FFmpeg 渲染
+   ↓
+预览并下载 MP4、SRT、JSON 报告
+```
 
-- [基于 n8n 的个人 AI Agent 与知识库自动化系统](https://github.com/z15314102792-arch/Xiang-Mu/tree/main/projects/n8n-agent)：集成网页搜索、知识库检索、文档入库、记忆读写和项目进度查询。
+所有片段起止时间、说话人和字幕均可在工作台中调整。字幕、花字和音频包装参数会进入实际渲染流程，最终写入导出视频。
 
-## 开始使用（Windows）
+## 快速开始（Windows）
 
-在仓库中双击 **`start-demo.bat`**，或在项目目录运行：
+### 环境要求
 
-```bash
+- Python 3.10+
+- FFmpeg 与 FFprobe，并启用 libass 字幕滤镜
+- 可选：openai-whisper 与已缓存的 tiny 或 small 模型
+
+### 启动
+
+在仓库根目录双击：
+
+`start-demo.bat`
+
+也可以在终端运行：
+
+```powershell
 python media_server.py --open
 ```
 
-打开 **http://127.0.0.1:8990/**。
+工作台地址：
 
-要求：**Python 3.10+、FFmpeg（含 FFprobe，必须有 libass/ass 字幕滤镜）**。本机语音转写属可选功能：使用 Whisper tiny/small 时必须自己事先安装 openai-whisper 和缓存模型；不使用转写就选「仅静音切分」。
+`http://127.0.0.1:8990/`
 
-## 真实操作：从素材到有包装的成片
+### 素材与导出位置
 
-1. 导入 MP4/MOV/MKV/WebM（单文件不超过 1.5GB）；按需选择 Whisper 转写。程序分析音轨停顿，给出候选片段。
-2. 播放原片、手动拆分说话片段、选「IP / 操盘手」、勾选需要保留的片段、修改起止秒数并编辑字幕。
-3. 在网页右侧 **「视频包装｜字幕 · 花字 · 动画 · 配乐」** 中设置：
-   - **字幕**：是否烧录、字号、底部留白、白/黄/绿/粉/蓝色、淡入/轻弹入场/无动画。
-   - **花字**：可添加最多 30 条自写文案；每条可设置**剪后成片时间轴**上的开始与结束秒数、显示位置、颜色、弹入/淡入/上浮/静态。花字由 ASS 动画实际烧录进画面。
-   - **开头缓推**：可选约 2.5 秒的 10% 中心推近；启用时以 25fps 渲染。
-   - **BGM**：上传自己有权使用的音乐、启用、调音量，长音轨自动循环并淡入淡出。
-   - **音效**：上传自己有权使用的音效，设置一个触发时间和音量。
-4. 勾选已实际听看复核，点击左侧 **「渲染成片 MP4（含字幕/花字/配乐）」**。程序先剪辑，再实际烧录字幕/动画并混音。
-5. 完成后点击**预览剪辑结果**，下载最终 MP4、独立 SRT、JSON 报告；如果不满意，继续修改参数并重新导出。
+真实视频、音频、草稿和导出文件默认保存在：
 
-注意：所有花字及音效的时码按照**粗剪以后成片的时间**，不是原视频时间。导出的 SRT 不含花字；字幕花字已烧录进最终 MP4。
+`~/Videos/XiangMu-workspace`
 
-## 功能状态与限制
+可通过环境变量 `XIANG_MU_WORKSPACE` 指定其他工作目录。素材和成片保存在本机工作区，不进入 GitHub 仓库。
 
-| 功能 | 当前状态 |
-|---|---|
-| 真实素材导入、音轨静音检测、人工粗剪 | ✅ 可使用 |
-| Whisper 本机中文转写 | ✅ 有缓存模型时可用，需人工核对 |
-| 原片定位试听、连续片段拆分、人工标注说话人 | ✅ 可使用 |
-| H.264/AAC MP4 + 独立 SRT 导出 | ✅ 可使用 |
-| ASS 硬字幕样式与入场动画 | ✅ 可使用 |
-| 花字位置、颜色、出场时间、入场动画 | ✅ 人工配置并真实烧录 |
-| 开头缓推 | ✅ 可选 10% 平滑推近 |
-| BGM 循环/淡入淡出、单次 SFX 混音 | ✅ 自备素材，实际混音 |
-| 自动识别操盘手与 IP、自动口误重录判定 | ❌ 未解决 |
-| 自动生成花字文案、语义选重点和智能匹配音效 | ❌ 未实现 |
-| 多个音效触发点、转场模板、封面自动化 | ❌ 未实现 |
-| 真人真实素材质量复核与跨电脑安装验收 | ⏳ 仍需人工验收 |
+## 技术实现
 
-**已经能做有字幕、花字动画、BGM/SFX 的简单成片**，但仍不等于已完成原 ChatCut 全自动剪辑流水线。尤其双说话人、口误判断和效果审美不能冒充已经自动解决。
+| 层级 | 技术 | 用途 |
+|---|---|---|
+| 本地服务 | Python 标准库 HTTP Server | 上传、任务状态、包装配置、预览和下载 |
+| 媒体分析 | FFprobe、FFmpeg silencedetect | 读取媒体信息、分析静音区间 |
+| 语音转写 | Whisper（可选） | 本地语音转文字 |
+| 视频剪辑 | FFmpeg | 按确认的片段区间裁剪和合并 |
+| 字幕与花字 | ASS / libass | 字幕、重点花字和入场动画渲染 |
+| 音频处理 | FFmpeg audio filters | BGM 循环、淡入淡出和音效混音 |
+| 前端界面 | HTML、CSS、JavaScript | 本地剪辑与包装操作台 |
 
-## 结构
+## 输出文件
+
+每次导出可获得：
+
+- **MP4**：完成片段剪辑、字幕、花字动画和音频包装的成片。
+- **SRT**：映射到剪辑后时间轴的独立字幕文件。
+- **JSON 报告**：记录本次媒体处理与包装结果。
+
+## 历史规则质检演示
+
+仓库保留了早期的口播剪辑质量规则演示，可通过本地服务访问：
+
+`http://127.0.0.1:8990/demo`
+
+该模块包含 8 条规则和 9 个案例，用于展示对粗剪、字幕、花字和音效问题的结构化检查。它与真实媒体工作台分开运行。
+
+## 项目结构
 
 ```text
-start-demo.bat                 Windows 一键启动
-media_server.py               localhost HTTP 文件上传、包装配置、视频预览、导出
-media_workflow.py             实际视频静音分析、剪辑、SRT 与导出调度
-package_render.py             ASS 字幕/花字动画、缓推、BGM/SFX FFmpeg 渲染
-web/workbench.html            实际剪辑和包装操作台
-web/packaging.js              字幕、花字及音频控制器
-tests/test_media_real.py      真视频粗剪、音轨与字幕验收
-tests/test_media_http.py      本地 HTTP 视频、音乐上传、包装配置和成片下载
-tests/test_packaging_real.py  视频实际烧录字幕花字、缓推及 BGM/SFX
-portfolio.py                  历史规则模拟检测引擎
-web/index.html                旧的 /demo 规则质检界面
-data/                         脱敏模拟规则/案例
-docs/                         项目沿革与发布审查
+Xiang-Mu/
+├── start-demo.bat
+├── media_server.py
+├── media_workflow.py
+├── package_render.py
+├── portfolio.py
+├── data/
+│   ├── cases.json
+│   ├── lock.json
+│   └── rules.json
+├── web/
+│   ├── workbench.html
+│   ├── packaging.js
+│   └── index.html
+├── tests/
+│   ├── test_media_http.py
+│   ├── test_media_real.py
+│   ├── test_packaging_real.py
+│   └── test_portfolio.py
+├── tools/
+│   └── release_audit.py
+└── docs/
+    └── PROJECT_STORY.md
 ```
 
-实际素材和视频输出默认位于用户自己的 `~/Videos/XiangMu-workspace`；可用 `XIANG_MU_WORKSPACE` 环境变量更改目录。只有 `127.0.0.1` 可连接，不是公网服务。服务停止后已完成成片仍保留。
+## 自动化测试
 
-## 项目质量检查
+在仓库根目录运行：
 
-```bash
+```powershell
 python -m unittest discover -s tests -v
 python portfolio.py demo
 python tools/release_audit.py
 ```
 
-自动化验收生成无版权合成视频和合成音频，验证视频确实有烧录文字像素、输出音轨、正确时长、包装报告和下载行为。**机器测试通过不代表任何真人口播成片已通过商业化审美验收**。
+当前测试集共 18 项，覆盖媒体分析、片段编辑校验、SRT 时间轴映射、HTTP 上传与导出、字幕花字渲染、BGM/SFX 混音及历史规则演示。
 
-本仓库用于个人求职作品展示和后续迭代，不包含或授权公开任何客户素材；展示页中的媒体均为本地生成的无版权合成样例。需求、质量标准、反馈和验收由项目发起人确定；代码由 AI 协助开发和测试，详见 `docs/PROJECT_STORY.md`。
+## 项目设计与迭代
+
+项目问题拆解、剪辑流程设计、质量标准和功能验收记录见 [项目设计与迭代](./docs/PROJECT_STORY.md)。
