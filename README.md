@@ -13,14 +13,9 @@
 > GitHub Pages 是长期展示站点：电脑关机也能看项目功能和样例视频；真实视频剪辑/导出仍由本地 Python + FFmpeg 完成，不把静态展示页冒充云端剪辑系统。展示站点使用独立 `gh-pages` 分支，只含网页、真实运行截图和无版权合成样例。
 
 
-## 其他 AI 项目：个人 AI Agent 与知识库自动化系统
+## 其他项目
 
-基于 n8n、DeepSeek、SearXNG 与 Qdrant 搭建的个人 AI Agent，包含网页研究、知识库检索、文档入库、长期记忆和项目进度查询。
-
-- [在线项目展示页](https://z15314102792-arch.github.io/Xiang-Mu/n8n-agent/)
-- [项目说明与工作流源码](https://github.com/z15314102792-arch/Xiang-Mu/tree/main/projects/n8n-agent)
-- [系统架构](https://github.com/z15314102792-arch/Xiang-Mu/blob/main/projects/n8n-agent/docs/ARCHITECTURE.md)
-- [运行结果](https://github.com/z15314102792-arch/Xiang-Mu/blob/main/projects/n8n-agent/docs/RESULTS.md)
+- [基于 n8n 的个人 AI Agent 与知识库自动化系统](https://github.com/z15314102792-arch/Xiang-Mu/tree/main/projects/n8n-agent)：集成网页搜索、知识库检索、文档入库、记忆读写和项目进度查询。
 
 ## 开始使用（Windows）
 
