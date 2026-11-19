@@ -62,7 +62,7 @@ Agent 1 在 n8n Agent Builder 中配置：
 - `save-memory`：保存或更新记忆。
 - `read-memory`：读取历史记忆。
 - `读取项目进度`：查询项目进度与证据。
-- `add-numbers`：算术计算工作流。
+算术计算演示工作流单独保留在工作流清单中，作为可复用的工具样例，不将其描述为 Agent 1 当前已连接的生产工具。
 
 Agent Skills：
 
