@@ -1,0 +1,167 @@
+[
+  {
+    "name": "读取项目进度",
+    "active": false,
+    "nodes": [
+      {
+        "id": "647eec3c-0eec-40b4-87b2-2c9376d3c661",
+        "name": "本地测试入口",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.2,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "replace-with-your-webhook-path",
+          "authentication": "none",
+          "responseMode": "lastNode",
+          "responseData": "allEntries",
+          "options": {}
+        }
+      },
+      {
+        "id": "2e9f4512-7f1f-49eb-8ec6-ec20dfc67741",
+        "name": "Agent 工具入口",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          0,
+          220
+        ],
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "project_name",
+                "type": "string"
+              },
+              {
+                "name": "limit",
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "e61fbdf9-2a3c-4f45-ac28-4359f6eeb7b2",
+        "name": "标准化查询参数",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          280,
+          110
+        ],
+        "parameters": {
+          "mode": "runOnceForAllItems",
+          "jsCode": "const input = $input.first()?.json ?? {};\nconst body = input.body && typeof input.body === 'object' ? input.body : input;\nconst projectName = String(body.project_name ?? body.project ?? body.keyword ?? '').trim();\nconst rawLimit = Number(body.limit ?? 10);\nconst limit = Number.isFinite(rawLimit)\n  ? Math.min(50, Math.max(1, Math.floor(rawLimit)))\n  : 10;\n\nreturn [{\n  json: {\n    project_name: projectName,\n    limit\n  }\n}];"
+        }
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "dataTableId": {
+            "__rl": true,
+            "value": "REPLACE_WITH_YOUR_DATA_TABLE_ID",
+            "mode": "list",
+            "cachedResultName": "agent_memory_table"
+          },
+          "matchType": "allConditions",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "scope_id",
+                "keyValue": "user_local_01"
+              },
+              {
+                "keyName": "agent_id",
+                "keyValue": "T8DMgZhRfB61ejQX"
+              },
+              {
+                "keyName": "status",
+                "keyValue": "active"
+              }
+            ]
+          },
+          "orderBy": true,
+          "orderByColumn": "updatedAt"
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1.1,
+        "position": [
+          560,
+          110
+        ],
+        "id": "222a5c68-d6e4-423f-a0e2-0659b1946f7b",
+        "name": "读取当前活动记忆",
+        "alwaysOutputData": true
+      },
+      {
+        "id": "ac38576f-e237-4449-9903-3a9167601de6",
+        "name": "筛选项目进度",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          840,
+          110
+        ],
+        "parameters": {
+          "mode": "runOnceForAllItems",
+          "jsCode": "const input = $('标准化查询参数').first().json;\nconst query = String(input.project_name || '').trim().toLocaleLowerCase();\nconst limit = Number(input.limit) || 10;\n\nconst rows = $input.all()\n  .map(item => item.json)\n  .filter(row => row && Object.keys(row).length > 0);\n\nconst availableTypes = [...new Set(\n  rows.map(row => String(row.memory_type ?? '').trim()).filter(Boolean)\n)];\n\nconst isProjectRecord = row => {\n  const label = [\n    row.memory_type,\n    row.memory_key,\n    row.tags\n  ].map(value => String(value ?? '')).join(' ').toLocaleLowerCase();\n\n  return /(project|项目|progress|进度)/i.test(label);\n};\n\nconst projectRows = rows.filter(isProjectRecord);\nconst matches = projectRows.filter(row => {\n  if (!query) return true;\n  const searchable = [\n    row.memory_key,\n    row.content,\n    row.evidence,\n    row.tags\n  ].map(value => String(value ?? '')).join('\\n').toLocaleLowerCase();\n\n  return searchable.includes(query);\n});\n\nconst items = matches.slice(0, limit).map(row => ({\n  memory_key: row.memory_key ?? null,\n  memory_type: row.memory_type ?? null,\n  content: row.content ?? '',\n  evidence: row.evidence ?? '',\n  importance: row.importance ?? null,\n  tags: row.tags ?? '',\n  updatedAt: row.updatedAt ?? null\n}));\n\nreturn [{\n  json: {\n    success: true,\n    project_name: input.project_name || null,\n    source: 'n8n Data Table / agent记忆',\n    scanned_active_rows: rows.length,\n    project_record_count: projectRows.length,\n    matched_count: matches.length,\n    returned_count: items.length,\n    available_memory_types: availableTypes,\n    message: matches.length\n      ? '已找到项目进度记忆。'\n      : projectRows.length\n        ? '存在项目类记忆，但没有匹配当前项目名称。'\n        : '当前活动记忆表中尚无可识别的项目进度记录。',\n    items\n  }\n}];"
+        }
+      }
+    ],
+    "connections": {
+      "本地测试入口": {
+        "main": [
+          [
+            {
+              "node": "标准化查询参数",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Agent 工具入口": {
+        "main": [
+          [
+            {
+              "node": "标准化查询参数",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "标准化查询参数": {
+        "main": [
+          [
+            {
+              "node": "读取当前活动记忆",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "读取当前活动记忆": {
+        "main": [
+          [
+            {
+              "node": "筛选项目进度",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate"
+    }
+  }
+]
