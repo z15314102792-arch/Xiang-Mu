@@ -35,20 +35,20 @@ footer{padding:32px 0 65px;border-top:1px solid #ffffff22;color:#91aabc;font-siz
 </style></head><body>
 <div class="wrap"><header class="top">
   <div class="logo">Xiang <b>Mu</b><span style="font-size:11px;vertical-align:middle;font-weight:500;color:#a8c3ce;margin-left:8px">WORKFLOW</span></div>
-  <nav class="topnav"><a class="navspot" href="walkthrough.html">▶ 实际操作演示</a><a href="#features">功能</a><a href="#demo">成片</a><a href="#implementation">实现</a></nav>
+  <nav class="topnav"><a class="navspot" href="walkthrough.html">▶ 实际操作演示</a><a href="#features">功能</a><a href="#demo">成片</a><a href="#implementation">实现</a><a href="https://github.com/z15314102792-arch/Xiang-Mu" target="_blank" rel="noopener noreferrer">源码</a></nav>
 </header>
 <main>
 <section class="hero">
- <div class="eyebrow">AI 应用工作流 · 个人实践项目 · v1.2</div>
+ <div class="eyebrow">本地口播视频剪辑工作台 · v1.2</div>
  <h1>从真实素材到<br><span>可交付的口播视频</span></h1>
- <p class="lead">Xiang Mu 是一套本地口播视频处理工作台，围绕实际使用中容易出现的停顿、重复 take、字幕断句和后期包装问题，将视频处理、人工复核、质量控制与成片导出串成一个完整流程。</p>
- <div class="actions"><a class="btn primary" href="walkthrough.html">▶ 进入实际操作演示 <span aria-hidden="true">↗</span></a><a class="btn" href="#demo">观看成片样例</a><a class="btn" href="#features">了解处理流程 <span aria-hidden="true">↓</span></a></div>
+ <p class="lead">Xiang Mu 是一套本地口播视频处理工作台，围绕实际使用中容易出现的停顿、重复录制、字幕断句和后期包装问题，将视频处理、人工复核、质量控制与成片导出串成一个完整流程。</p>
+ <div class="actions"><a class="btn primary" href="walkthrough.html">▶ 进入实际操作演示 <span aria-hidden="true">↗</span></a><a class="btn" href="#demo">观看成片样例</a><a class="btn" href="#features">了解处理流程 <span aria-hidden="true">↓</span></a><a class="btn" href="https://github.com/z15314102792-arch/Xiang-Mu" target="_blank" rel="noopener noreferrer">查看 GitHub 源码 ↗</a></div>
  <div class="meta"><span>实际处理引擎：<strong>Python + FFmpeg</strong></span><span>本地语音转写：<strong>Whisper（可选）</strong></span><span>回归测试：<strong>18 / 18</strong></span><span>状态：<strong>可本地运行的 v1.2</strong></span></div>
 </section>
-<div class="demoBanner"><div><div class="hint">NEW · REAL WORKFLOW DEMO</div><strong>不只看介绍：直接观看剪辑操作全过程</strong><p>实际工作台画面、分段修剪、字幕花字配置、真实成片导出结果。无需安装软件。</p></div><a class="btn primary" href="walkthrough.html">▶ 打开操作演示页</a></div>
+<div class="demoBanner"><div><div class="hint">NEW · REAL WORKFLOW DEMO</div><strong>操作流程演示与真实成片</strong><p>按顺序展示素材导入、片段复核、包装配置与 MP4 导出结果。</p></div><a class="btn primary" href="walkthrough.html">▶ 打开操作演示页</a></div>
 </main></div>
 <section class="rule" id="features"><div class="wrap section">
- <div class="sectnum">01 / PRODUCT CAPABILITY</div><h2>不是只有功能展示，而是真正完成媒体处理</h2>
+ <div class="sectnum">01 / PRODUCT CAPABILITY</div><h2>从素材导入到 MP4 成片</h2>
  <p class="sub">网页是操作入口，FFmpeg / libass 负责实际视频剪切、字幕花字渲染与声音合成。所有功能以最终生成的视频文件为验收对象。</p>
  <div class="grid">
   <article class="tile"><small>INPUT & ANALYSIS</small><h3>视频导入和停顿分析</h3><p>导入 MP4 等素材，读取视频信息，识别静音区间，生成粗剪候选片段。</p></article>
@@ -68,7 +68,7 @@ footer{padding:32px 0 65px;border-top:1px solid #ffffff22;color:#91aabc;font-siz
 </div></section>
 <section class="rule" id="demo"><div class="wrap section">
  <div class="sectnum">02 / WORKING PRODUCT & OUTPUT</div><h2>操作界面与实际渲染样例</h2>
- <p class="sub">下方是运行中的真实项目界面截图，以及使用项目渲染程序制作的合成素材样例。样例用于验证动画和字幕效果，不冒充客户商业成片。</p>
+ <p class="sub">下方展示本地工作台的实际运行界面，以及由项目渲染流程生成的样例视频。</p>
  <div class="mediaGrid">
   <figure class="mediaCard" style="margin:0">
     <img src="assets/workbench.png" alt="Xiang Mu 本地视频工作台真实运行截图，包括导入、粗剪和包装配置" loading="lazy">
@@ -79,16 +79,16 @@ footer{padding:32px 0 65px;border-top:1px solid #ffffff22;color:#91aabc;font-siz
    <p class="caption">由 FFmpeg + ASS 真实编码的视频样例（合成测试画面，无客户素材）</p>
   </div>
  </div>
- <p class="footnote"><strong>展示页与编辑器的区别：</strong>这个网址用于长期展示项目，视频可直接播放；真正的视频上传、剪辑和导出运行在独立的本地 Python 工作台。为了避免访客上传敏感素材，展示页不会伪装成在线剪辑服务。</p>
+ <p class="footnote"><strong>运行方式：</strong>在线页面展示项目与操作样例；真实视频上传、剪辑和导出在本机工作台完成，素材与成片保存在本机工作区。</p>
 </div></section>
 <section class="rule" id="implementation"><div class="wrap section">
  <div class="sectnum">03 / PROJECT THINKING</div><h2>从需求卡点到可验证的交付</h2>
  <div class="two">
   <article class="plain"><h3>为什么做</h3><p>口播剪辑不只是“自动识别语音并切掉静音”。实际素材里存在多人交替说话、重录、语义断句、花字出现时间、声音层级等问题。仅展示理想流程无法解决真实使用困难。</p><p>因此将方案拆分为：自动生成候选结果 → 人工校正关键判断 → 实际执行包装 → 最终文件质检。</p></article>
-  <article class="plain"><h3>怎么验收</h3><p>建立结构化规则与回归案例，再使用程序生成的音视频测试实际验证：是否真的裁剪、是否保留音轨、字幕时间是否对齐，画面是否出现花字，音乐和音效是否被混入最终 MP4。</p><p>目前已通过 <strong class="accent">18/18</strong> 项程序测试；真人口播素材的审美质量仍需要人工验收。</p></article>
+  <article class="plain"><h3>怎么验收</h3><p>建立结构化规则与回归案例，再使用程序生成的音视频测试实际验证：是否真的裁剪、是否保留音轨、字幕时间是否对齐，画面是否出现花字，音乐和音效是否被混入最终 MP4。</p><p>自动化测试覆盖真实媒体分析、片段编辑、字幕花字渲染、音频混合与 HTTP 文件交付，共 <strong class="accent">18</strong> 项。</p></article>
  </div>
- <p class="footnote"><strong>能力边界：</strong>目前并不能稳定自动区分操盘手和出镜 IP，也没有实现自动识别全部口误、智能生成重点花字或自动匹配复杂模板。这是一个具备真实处理能力、允许人工复核的产品原型，不是完全无人值守的商业剪辑系统。</p>
+ 
 </div></section>
 
-<div class="wrap"><footer><span>© Xiang Mu · AI 应用与工作流实践项目</span><span>v1.2 · 项目展示页（无需本地电脑开机）</span></footer></div>
+<div class="wrap"><footer><span>© Xiang Mu · 本地口播视频剪辑工作台</span><span>v1.2 · 项目展示页（无需本地电脑开机）</span></footer></div>
 </body></html>
