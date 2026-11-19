@@ -1,0 +1,76 @@
+[
+  {
+    "name": "读取记忆",
+    "active": false,
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          0,
+          0
+        ],
+        "id": "e5224b2b-2a84-43b6-b88c-fa304731e911",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "dataTableId": {
+            "__rl": true,
+            "value": "REPLACE_WITH_YOUR_DATA_TABLE_ID",
+            "mode": "list",
+            "cachedResultName": "agent_memory_table"
+          },
+          "matchType": "allConditions",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "scope_id",
+                "keyValue": "user_local_01"
+              },
+              {
+                "keyName": "agent_id",
+                "keyValue": "T8DMgZhRfB61ejQX"
+              },
+              {
+                "keyName": "status",
+                "keyValue": "active"
+              }
+            ]
+          },
+          "orderBy": true,
+          "orderByColumn": "updatedAt"
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1.1,
+        "position": [
+          224,
+          0
+        ],
+        "id": "dadd9c43-c817-4d8d-8256-6533c3b18096",
+        "name": "Get row(s)"
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Get row(s)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate"
+    }
+  }
+]
