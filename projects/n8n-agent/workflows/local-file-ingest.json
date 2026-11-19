@@ -1,6 +1,6 @@
 [
   {
-    "name": "本地文件读取测试",
+    "name": "本地文件读取与入库",
     "active": false,
     "nodes": [
       {
@@ -41,26 +41,6 @@
         ],
         "id": "e9a91699-bf1c-4086-9b56-93f255aec962",
         "name": "Extract from File"
-      },
-      {
-        "parameters": {
-          "rule": {
-            "interval": [
-              {
-                "field": "minutes",
-                "minutesInterval": 1
-              }
-            ]
-          }
-        },
-        "type": "n8n-nodes-base.scheduleTrigger",
-        "typeVersion": 1.4,
-        "position": [
-          -64,
-          -64
-        ],
-        "id": "a864271f-18c0-4e6d-aef6-25955b63ecdd",
-        "name": "Schedule Trigger"
       },
       {
         "parameters": {
@@ -226,13 +206,13 @@
               {
                 "id": "70ac33f6-be70-422a-be57-5b544411206f",
                 "name": "文件类型",
-                "value": "={{ $('Read/Write Files from Disk').item.json.fileExtension }}",
+                "value": "={{ $('Read/Write Files from Disk').item.json.fileExtension.toUpperCase() }}",
                 "type": "string"
               },
               {
                 "id": "979e661c-5be6-4479-8a62-e75846358af4",
                 "name": "文件扩展名",
-                "value": "={{ $('Read/Write Files from Disk').item.json.fileType }}",
+                "value": "={{ $('Read/Write Files from Disk').item.json.fileExtension }}",
                 "type": "string"
               },
               {
@@ -420,17 +400,6 @@
           [
             {
               "node": "Switch",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Schedule Trigger": {
-        "main": [
-          [
-            {
-              "node": "Read/Write Files from Disk",
               "type": "main",
               "index": 0
             }
