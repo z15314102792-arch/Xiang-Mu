@@ -44,7 +44,7 @@
 - `YOUR_SCOPE_ID`：当前用户或记忆空间标识。
 - `YOUR_AGENT_ID`：当前 Agent 标识。
 
-三个工作流必须使用同一组值，才能读写同一批记忆记录。
+三个工作流必须使用同一组值，才能读写同一批记忆记录。工作流 JSON 中的 `YOUR_DATA_TABLE_ID`、`YOUR_SCOPE_ID` 和 `YOUR_AGENT_ID` 均为导入占位符，不是可直接运行的真实 ID。
 
 ### 本地文件目录
 
@@ -56,7 +56,7 @@
 
 ### 项目进度测试入口
 
-「读取项目进度」保留本地 Webhook（网络钩子）测试入口，路径为 `agent-project-progress-test`，请求方式为 POST；Agent 则通过独立工作流入口调用。
+「读取项目进度」保留本地 Webhook（网络钩子）测试入口，路径为 `agent-project-progress-test`，请求方式为 POST；Agent 则通过独立工作流入口调用。该 Webhook 当前使用无认证设置，仅用于本机测试，不要将其直接暴露到公网；如需外部访问，先配置认证。
 
 ## 4. Agent 工具连接
 
