@@ -267,7 +267,7 @@
         "parameters": {
           "workflowId": {
             "__rl": true,
-            "value": "REPLACE_WITH_IMPORTED_WORKFLOW_ID",
+            "value": "YOUR_KNOWLEDGE_BASE_INGEST_WORKFLOW_ID",
             "mode": "list",
             "cachedResultName": "knowledge-base-ingest"
           },
