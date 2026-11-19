@@ -65,8 +65,8 @@ footer{border-top:1px solid #ffffff22;color:#91aabd;padding:28px 0 55px;display:
 <section class="hero">
   <div class="kicker">PRODUCT WALKTHROUGH / v1.2</div>
   <h1>看看它如何<br><em>真正处理一段视频</em></h1>
-  <p class="lead">以下不是一张静态效果图。我们在独立运行的 Xiang Mu 工作台中，用无版权合成素材走通了「导入 → 分析 → 人工调整 → 字幕与花字 → 真正导出 MP4」的流程。</p>
-  <div class="pills"><span>真实工作台界面</span><span>7 个操作环节</span><span>真实 FFmpeg 渲染</span><span>无客户素材</span></div>
+  <p class="lead">以下演示来自独立运行的 Xiang Mu 工作台，按顺序展示「导入 → 分析 → 人工调整 → 字幕与花字 → 导出 MP4」的实际操作流程。</p>
+  <div class="pills"><span>真实工作台界面</span><span>7 个操作环节</span><span>真实 FFmpeg 渲染</span><span>程序生成的演示素材</span></div>
   <p class="cue"><strong>直接播放下方视频：</strong>左边看工作台操作过程，右边看实际生成的成片。</p>
 </section>
 <section class="stage" id="watch">
@@ -77,7 +77,7 @@ footer{border-top:1px solid #ffffff22;color:#91aabd;padding:28px 0 55px;display:
         <source src="assets/workflow-walkthrough.mp4" type="video/mp4">你的浏览器不支持视频播放。
       </video>
     </div>
-    <div class="description"><strong>实际运行记录。</strong> 展示真实浏览器工作台在每一步操作后的状态，按顺序剪辑成短视频；不是连续实时录屏，也不是模拟软件界面。</div>
+    <div class="description"><strong>工作台操作过程。</strong> 展示实际页面在素材导入、片段复核、包装配置和导出等关键步骤的状态。</div>
   </article>
   <article class="card">
     <h2>02 / 导出成片 <small>剪辑 + 字幕 + 花字 + 开头动画</small></h2>
@@ -86,13 +86,13 @@ footer{border-top:1px solid #ffffff22;color:#91aabd;padding:28px 0 55px;display:
         <source src="assets/workflow-output.mp4" type="video/mp4">你的浏览器不支持视频播放。
       </video>
     </div>
-    <div class="description"><strong>引擎真实渲染。</strong> 输出文件由 Python + FFmpeg / libass 生成。输入是程序合成测试画面和音频，不代表真人口播的商业审美效果。</div>
+    <div class="description"><strong>实际渲染输出。</strong> 视频由 Python + FFmpeg / libass 生成，展示字幕、花字动画、开场缓推和音频混合效果。</div>
   </article>
 </section>
 <section class="section" id="steps">
  <div class="kicker">BEHIND THE WORKFLOW</div>
  <h2>操作过程中实际完成了什么？</h2>
- <p>四个关键页面状态来自本地实际运行的浏览器，不用静态图片伪装成可操作的在线服务。</p>
+ <p>以下四张截图按实际操作顺序展示工作台的关键状态。</p>
  <div class="process">
   <article><img src="assets/workflow-step-1.jpg" alt="真实工作台的素材导入界面" loading="lazy"><div class="content"><small>01 / UPLOAD</small><b>导入素材</b><p>选择测试视频、检查 FFmpeg 状态、启动处理任务。</p></div></article>
   <article><img src="assets/workflow-step-3.jpg" alt="分析结果与视频片段复核界面" loading="lazy"><div class="content"><small>02 / REVIEW</small><b>拆分与人工复核</b><p>分析后检查片段，调整保留区间和说话人信息。</p></div></article>
@@ -100,12 +100,12 @@ footer{border-top:1px solid #ffffff22;color:#91aabd;padding:28px 0 55px;display:
   <article><img src="assets/workflow-step-7.jpg" alt="导出成功及 MP4 SRT 质检报告下载界面" loading="lazy"><div class="content"><small>04 / OUTPUT</small><b>完成导出与核验</b><p>生成实际 MP4、SRT 和质检报告，提供视频预览与下载。</p></div></article>
  </div>
  <div class="callout">
-  <h3>为什么这里不能直接上传视频？</h3>
-  <p>这个网址采用 GitHub Pages 静态托管，用于长期展示项目；真正的视频处理需要 Python + FFmpeg 后端。为避免假装是在线剪辑器，这里展示真实操作过程与生成结果，**不提供无效的上传按钮**。</p>
-  <p>如果需要亲手操作，可查看公开源码仓库中的 Windows 启动说明；在自己的电脑安装 Python 与 FFmpeg 后运行。</p>
+  <h3>在本机运行完整工作台</h3>
+  <p>完整剪辑功能运行在本机。下载源码并按仓库 README 安装 Python 与 FFmpeg，双击 <code>start-demo.bat</code> 启动工作台。</p>
+  <p>启动后在浏览器打开 <code>http://127.0.0.1:8990/</code>，即可导入自己的视频素材并完成剪辑与导出。</p>
  </div>
 </section>
 <div class="actions"><a class="btn primary" href="./">返回项目介绍首页</a><a class="btn" href="https://github.com/z15314102792-arch/Xiang-Mu" target="_blank" rel="noopener noreferrer">查看开源项目及运行方法</a></div>
 </main>
-<footer><span>Xiang Mu｜AI 口播视频工作流 · v1.2</span><span>本页演示全部使用无版权合成素材；网页不依赖本地电脑在线。</span></footer>
+<footer><span>Xiang Mu｜AI 口播视频工作流 · v1.2</span><span>Xiang Mu｜本地口播视频剪辑工作台 · v1.2</span></footer>
 </div></body></html>
