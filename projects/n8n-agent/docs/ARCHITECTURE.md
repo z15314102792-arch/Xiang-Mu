@@ -34,7 +34,7 @@
 1. Default Data Loader（默认文档加载器）读取正文和元数据。
 2. FastEmbed 使用 `BAAI/bge-small-zh-v1.5` 生成 512 维向量。
 3. Qdrant Vector Store 将向量、正文和 metadata 写入 `agent_knowledge_prod`。
-4. Agent 通过「知识库入口」检索正式集合；别名 `agent_knowledge_native` 同样指向该集合。
+4. Agent 1 当前通过「知识库入口」检索正式集合；别名 `agent_knowledge_native` 同样指向 `agent_knowledge_prod`。2026-11-19 已完成 2 个 Point 到 `knowledge-test-v2` 的重新 Embedding 对照迁移，但 Agent 1 尚未切换到测试集合。
 
 | 参数 | 值 |
 |---|---|
