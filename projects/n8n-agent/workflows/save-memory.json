@@ -43,7 +43,7 @@
           "operation": "upsert",
           "dataTableId": {
             "__rl": true,
-            "value": "REPLACE_WITH_YOUR_DATA_TABLE_ID",
+            "value": "YOUR_DATA_TABLE_ID",
             "mode": "list",
             "cachedResultName": "agent_memory_table"
           },
