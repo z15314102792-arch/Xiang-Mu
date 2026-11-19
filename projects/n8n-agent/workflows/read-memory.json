@@ -30,11 +30,11 @@
             "conditions": [
               {
                 "keyName": "scope_id",
-                "keyValue": "user_local_01"
+                "keyValue": "YOUR_SCOPE_ID"
               },
               {
                 "keyName": "agent_id",
-                "keyValue": "T8DMgZhRfB61ejQX"
+                "keyValue": "YOUR_AGENT_ID"
               },
               {
                 "keyName": "status",
