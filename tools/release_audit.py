@@ -11,7 +11,7 @@ ALLOW = {
     "web/index.html", "web/workbench.html", "web/packaging.js",
     "tests/test_portfolio.py", "tests/test_media_real.py",
     "tests/test_media_http.py", "tests/test_packaging_real.py", "tools/release_audit.py",
-    "docs/PROJECT_STORY.md", "docs/PUBLISH_CHECKLIST.md",
+    "docs/PROJECT_STORY.md",
 }
 BLOCK_PATTERNS = [
     ("windows absolute path", re.compile(r"\b[A-Za-z]:\\(?:Users|项目|素材|第二大脑|Program Files|\\)", re.I)),
