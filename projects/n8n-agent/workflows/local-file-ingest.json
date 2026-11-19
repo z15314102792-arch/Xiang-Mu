@@ -1,0 +1,519 @@
+[
+  {
+    "name": "本地文件读取测试",
+    "active": false,
+    "nodes": [
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -96,
+          96
+        ],
+        "id": "5db9936d-cfc7-48e1-b671-a6ef1f0af88a",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "fileSelector": "/path/to/knowledge/inbox/*",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.readWriteFile",
+        "typeVersion": 1.1,
+        "position": [
+          112,
+          0
+        ],
+        "id": "fd6fe0ef-4f63-4803-8701-c188d4fd5b32",
+        "name": "Read/Write Files from Disk"
+      },
+      {
+        "parameters": {
+          "operation": "text",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.extractFromFile",
+        "typeVersion": 1.2,
+        "position": [
+          416,
+          -64
+        ],
+        "id": "e9a91699-bf1c-4086-9b56-93f255aec962",
+        "name": "Extract from File"
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 1
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.4,
+        "position": [
+          -64,
+          -64
+        ],
+        "id": "a864271f-18c0-4e6d-aef6-25955b63ecdd",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 4
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $binary.data.fileExtension }}",
+                      "rightValue": "txt",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "abbc50df-c5ad-4604-8a9b-c282712213cc"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "TXT"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 4
+                  },
+                  "conditions": [
+                    {
+                      "id": "e871d16f-c53e-4cfa-895c-169c437ea018",
+                      "leftValue": "={{ $binary.data.fileExtension.toLowerCase() }}",
+                      "rightValue": "pdf",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "PDF"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.5,
+        "position": [
+          256,
+          16
+        ],
+        "id": "931d015f-695e-416b-b9bf-4e1c101bfae5",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "operation": "pdf",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.extractFromFile",
+        "typeVersion": 1.2,
+        "position": [
+          432,
+          160
+        ],
+        "id": "76d6faff-63f8-41c9-b01f-1915086bfce1",
+        "name": "Extract from File1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b9ff031e-4445-4fd4-8d31-818e38225766",
+                "name": "文档正文",
+                "value": "={{ $json.data }}",
+                "type": "string"
+              },
+              {
+                "id": "91eada51-9d4d-4d1b-a92f-11fab2236db1",
+                "name": "文件名",
+                "value": "={{ $('Read/Write Files from Disk').item.json.fileName }}",
+                "type": "string"
+              },
+              {
+                "id": "36ca64d4-5326-4990-8648-78934c5d1c60",
+                "name": "文件扩展名",
+                "value": "={{ $('Read/Write Files from Disk').item.json.fileExtension }}",
+                "type": "string"
+              },
+              {
+                "id": "d91944be-f05b-4561-bb35-615fccbfaf68",
+                "name": "文件类型",
+                "value": "={{ $('Read/Write Files from Disk').item.json.fileExtension.toUpperCase() }}",
+                "type": "string"
+              },
+              {
+                "id": "c604219b-0c2d-4fcf-be22-63a12faaaf89",
+                "name": "MIME类型",
+                "value": "={{ $('Read/Write Files from Disk').item.json.mimeType }}",
+                "type": "string"
+              },
+              {
+                "id": "cb0ccd76-3007-4c4f-80c9-3be2146c69a0",
+                "name": "文件大小",
+                "value": "={{ $('Read/Write Files from Disk').item.json.fileSize }}",
+                "type": "string"
+              },
+              {
+                "id": "fc8e1f92-b92c-4811-9662-4d2b20ac1d34",
+                "name": "来源目录",
+                "value": "={{ $('Read/Write Files from Disk').item.binary.data.directory }}",
+                "type": "string"
+              },
+              {
+                "id": "672834bb-8e1f-4056-8446-42406388ce31",
+                "name": "来源路径",
+                "value": "={{ $('Read/Write Files from Disk').item.binary.data.directory + '/' + $('Read/Write Files from Disk').item.json.fileName }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "52f153a1-45b4-495c-8731-78cf8de1e79a",
+        "name": "TXT统一字段",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.5,
+        "position": [
+          592,
+          -64
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "3871831f-8ddd-4745-a5e5-202ad2fe69d4",
+                "name": "文档正文",
+                "value": "={{ $json.text }}",
+                "type": "string"
+              },
+              {
+                "id": "8f91e4c8-8737-4fab-b863-dedd2a865319",
+                "name": "文件名",
+                "value": "={{ $('Read/Write Files from Disk').item.json.fileName }}",
+                "type": "string"
+              },
+              {
+                "id": "70ac33f6-be70-422a-be57-5b544411206f",
+                "name": "文件类型",
+                "value": "={{ $('Read/Write Files from Disk').item.json.fileExtension }}",
+                "type": "string"
+              },
+              {
+                "id": "979e661c-5be6-4479-8a62-e75846358af4",
+                "name": "文件扩展名",
+                "value": "={{ $('Read/Write Files from Disk').item.json.fileType }}",
+                "type": "string"
+              },
+              {
+                "id": "e4eb61a9-f1b4-42ec-9016-57c377d4af40",
+                "name": "MIME类型",
+                "value": "={{ $('Read/Write Files from Disk').item.json.mimeType }}",
+                "type": "string"
+              },
+              {
+                "id": "611fde93-f472-4e00-993e-3fba1d3a3804",
+                "name": "文件大小",
+                "value": "={{ $('Read/Write Files from Disk').item.json.fileSize }}",
+                "type": "string"
+              },
+              {
+                "id": "b920d3eb-7d01-4a0a-bb12-03dbc9aec972",
+                "name": "来源目录",
+                "value": "={{ $('Read/Write Files from Disk').item.binary.data.directory }}",
+                "type": "string"
+              },
+              {
+                "id": "996f30ec-0f89-4ea3-8283-55e748d4bdb6",
+                "name": "来源路径",
+                "value": "={{ $('Read/Write Files from Disk').item.binary.data.directory + '/' + $('Read/Write Files from Disk').item.json.fileName }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "69e8454f-7b3f-4c5c-b97c-c439e8588a14",
+        "name": "PDF统一字段",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.5,
+        "position": [
+          608,
+          160
+        ]
+      },
+      {
+        "parameters": {},
+        "id": "33659507-05f6-4b51-b745-6076fcb972ed",
+        "name": "合并解析结果",
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          784,
+          32
+        ]
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "REPLACE_WITH_IMPORTED_WORKFLOW_ID",
+            "mode": "list",
+            "cachedResultName": "knowledge-base-ingest"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "文档正文": "={{ $json[\"文档正文\"] }}",
+              "文件名": "={{ $json[\"文件名\"] }}",
+              "文件扩展名": "={{ $json[\"文件扩展名\"] }}",
+              "文件类型": "={{ $json[\"文件类型\"] }}",
+              "MIME类型": "={{ $json[\"MIME类型\"] }}",
+              "文件大小": "={{ $json[\"文件大小\"] }}",
+              "来源目录": "={{ $json[\"来源目录\"] }}",
+              "来源路径": "={{ $json[\"来源路径\"] }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "文档正文",
+                "displayName": "文档正文",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "文件名",
+                "displayName": "文件名",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "文件扩展名",
+                "displayName": "文件扩展名",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "文件类型",
+                "displayName": "文件类型",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "MIME类型",
+                "displayName": "MIME类型",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "文件大小",
+                "displayName": "文件大小",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "来源目录",
+                "displayName": "来源目录",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "来源路径",
+                "displayName": "来源路径",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {
+            "waitForSubWorkflow": true
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.4,
+        "position": [
+          944,
+          32
+        ],
+        "id": "3b55e6df-7132-4f68-b260-80e02d20efd4",
+        "name": "Call '知识库入库'"
+      }
+    ],
+    "connections": {
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Read/Write Files from Disk",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Read/Write Files from Disk": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Read/Write Files from Disk",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Extract from File": {
+        "main": [
+          [
+            {
+              "node": "TXT统一字段",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Extract from File",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Extract from File1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Extract from File1": {
+        "main": [
+          [
+            {
+              "node": "PDF统一字段",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "TXT统一字段": {
+        "main": [
+          [
+            {
+              "node": "合并解析结果",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "PDF统一字段": {
+        "main": [
+          [
+            {
+              "node": "合并解析结果",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "合并解析结果": {
+        "main": [
+          [
+            {
+              "node": "Call '知识库入库'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate"
+    }
+  }
+]
