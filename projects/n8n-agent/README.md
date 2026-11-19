@@ -92,13 +92,17 @@ Agent 动态生成搜索词并调用 SearXNG，历史多轮搜索返回约 42–
 ### 文档入库与语义检索
 一份 99 行 TXT 文档解析后生成 2 个文本块。FastEmbed 生成 512 维向量，Qdrant 将正文和 metadata 写入 `agent_knowledge_prod`。两个 Point 均可逐条读回，语义查询得分约为 0.6816 和 0.5661。
 
-正式知识库入口「知识库入口」与别名 `agent_knowledge_native` 均指向 `agent_knowledge_prod`。
+正式集合 `agent_knowledge_prod` 当前仍由 Agent 1 使用；「知识库入口」与别名 `agent_knowledge_native` 均仍指向该集合。2026-11-19 已将 2 个 Point 复制并重新 Embedding 到测试集合 `knowledge-test-v2`，但 Agent 1 尚未切换，新的运行时检索验收待完成。
 
 ### 项目进度查询
 以 `project_name=n8n` 查询时，工作流扫描 3 条活动记忆，匹配 1 条项目记录，并返回正文、证据、重要程度、标签和更新时间；不存在的项目名称返回 0 条匹配记录。
 
 ### 记忆读写与工具调用
 「保存记忆」通过 Data Table Upsert 新增或更新记录；「读取记忆」按条件读回结构化记录。Agent Preview 执行记录中包含记忆和项目进度工具调用。
+
+## 2026-11-19 向量迁移状态
+
+已完成正式集合的重新 Embedding 对照测试：将 `agent_knowledge_prod` 的 2 个 Point 复制到测试集合 `knowledge-test-v2`，保留 Point ID、正文和 metadata；512 维向量及语义检索排序、分数对照一致。测试集合尚未接入 Agent 1，六条工作流导出仍以当前正式集合 `agent_knowledge_prod` 为准。迁移工作流属于单独测试资产，不包含在本仓库六条核心工作流中。
 
 ## 导入与使用
 
