@@ -40,6 +40,16 @@ Agent 通过原生 Qdrant 知识库工具执行语义检索：
 - 返回字段：`memory_key`、`memory_type`、`content`、`evidence`、`importance`、`tags`、`updatedAt`。
 - 不存在的项目名称返回 0 条匹配记录。
 
+## 重新 Embedding 迁移对照（2026-11-19）
+
+- 正式源集合：`agent_knowledge_prod`，共 2 个 Point。
+- 测试目标集合：`knowledge-test-v2`，512 维、Cosine，迁移前为空。
+- 迁移方式：Scroll 读取原始文本块，调用本地 FastEmbed `BAAI/bge-small-zh-v1.5` 重新生成向量，再按原 Point ID Upsert。
+- 迁移校验：2 个 Point 的 ID、正文和 metadata 完全一致；向量均为 512 维，重新生成前后向量相似度约 1.0。
+- 同一问题在新旧集合的语义检索结果、排序和分数一致：0.68157613、0.56608593。
+- 原集合未修改；「知识库入口」与 `agent_knowledge_native` 仍指向 `agent_knowledge_prod`。
+- **尚未完成：** Agent 1 尚未切换到 `knowledge-test-v2`，因此新集合的 Agent 运行时检索仍待验收。迁移测试工作流不属于本仓库六条核心导出。
+
 ## 记忆保存与读取
 
 - 「保存记忆」工作流使用 Upsert，根据记忆键新增或更新记录。
