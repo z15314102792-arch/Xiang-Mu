@@ -52,11 +52,11 @@
             "conditions": [
               {
                 "keyName": "scope_id",
-                "keyValue": "user_local_01"
+                "keyValue": "YOUR_SCOPE_ID"
               },
               {
                 "keyName": "agent_id",
-                "keyValue": "T8DMgZhRfB61ejQX"
+                "keyValue": "YOUR_AGENT_ID"
               },
               {
                 "keyName": "memory_key",
@@ -67,14 +67,15 @@
           "columns": {
             "mappingMode": "defineBelow",
             "value": {
-              "scope_id": "user_local_01",
-              "agent_id": "T8DMgZhRfB61ejQX",
+              "scope_id": "YOUR_SCOPE_ID",
+              "agent_id": "YOUR_AGENT_ID",
               "memory_key": "={{$json.memory_key}}",
               "status": "active",
               "importance": "={{$json.importance}}",
               "evidence": "={{$json.evidence}}",
               "content": "={{$json.content}}",
-              "memory_type": "={{$json.memory_type}}"
+              "memory_type": "={{$json.memory_type}}",
+              "tags": "={{ $json.tags || \"\" }}"
             },
             "matchingColumns": [],
             "schema": [
