@@ -1,15 +1,15 @@
-# Xiang Mu｜本地口播视频剪辑工作台
+# 视频剪辑工具｜本地口播视频剪辑工作台
 
 **从真实视频素材到可交付的 MP4 成片。**
 
 Xiang Mu 是一套运行在 Windows 本机的口播视频剪辑工作台。它将视频导入、静音分析、片段复核、字幕编辑、画面包装和成片导出整合在一个操作界面中。
 
-- [在线项目首页](https://z15314102792-arch.github.io/Xiang-Mu/)
-- [实际操作演示](https://z15314102792-arch.github.io/Xiang-Mu/walkthrough.html)
-- [GitHub 源码](https://github.com/z15314102792-arch/Xiang-Mu)
-- [MP4 渲染样例](https://github.com/z15314102792-arch/Xiang-Mu/blob/gh-pages/assets/render-demo.mp4)
+- [在线项目首页](https://z15314102792-arch.github.io/video-editing-tool/)
+- [实际操作演示](https://z15314102792-arch.github.io/video-editing-tool/walkthrough.html)
+- [GitHub 源码](https://github.com/z15314102792-arch/video-editing-tool)
+- [MP4 渲染样例](https://github.com/z15314102792-arch/video-editing-tool/blob/gh-pages/assets/render-demo.mp4)
 
-![Xiang Mu 本地视频工作台](https://raw.githubusercontent.com/z15314102792-arch/Xiang-Mu/gh-pages/assets/workbench.png)
+![Xiang Mu 本地视频工作台](https://raw.githubusercontent.com/z15314102792-arch/video-editing-tool/gh-pages/assets/workbench.png)
 
 ## 核心功能
 
